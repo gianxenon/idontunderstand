@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ui_bgmain"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="320dp"
+        android:contentDescription="@string/iamgeView"
+        app:srcCompat="@drawable/ui_logo" />
+
+    <Button
+        android:id="@+id/btn_welLog"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageView"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_corners"
+        android:text="@string/btn_welLog" />
+
+    <Button
+        android:id="@+id/btn_welSignup"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:layout_below="@id/btn_welLog"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_signupbg"
+        android:text="@string/btn_welSignup" />
+
+</RelativeLayout>

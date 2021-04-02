@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ui_logbg"
+    tools:context=".login">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:contentDescription="@string/imageView2"
+        app:srcCompat="@drawable/ui_logo" />
+
+    <LinearLayout
+        android:id="@+id/lay_log"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/wel_loglayout"
+        android:elevation="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/imageView2"
+        android:orientation="vertical"
+        tools:ignore="UnusedAttribute">
+
+        <EditText
+            android:id="@+id/edt_logUname"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginTop="30dp"
+            android:hint="@string/edt_logUname"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textColorHint="#808080"
+            android:backgroundTint="@color/black"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/edt_logLogin"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="@color/black"
+            android:ems="10"
+            android:hint="@string/edt_logLogin"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:textColorHint="#808080" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="@string/textView" />
+
+        <Button
+            android:id="@+id/btn_logLogin"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_corners"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:text="@string/btn_logLogin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/textView2"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="55dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="35dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/textView3"
+                android:textColor="#0080ff"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

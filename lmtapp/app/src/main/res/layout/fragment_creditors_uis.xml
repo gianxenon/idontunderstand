@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".creditors_uis">
+
+
+    <EditText
+        android:id="@+id/edt_search"
+        android:layout_width="390dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/searchbg"
+        android:ems="10"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
+        android:hint="@string/edt_search"
+        android:importantForAutofill="no"
+        tools:ignore="RtlSymmetry" />
+
+    <LinearLayout
+        android:id="@+id/trylayID"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/edt_search"
+        android:layout_margin="10dp"
+        android:background="@drawable/listviewdesign"
+        android:orientation="vertical">
+
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:padding="6dp"
+            android:scrollbars="none" />
+
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/img_fltbtn"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="50dp"
+        android:focusable="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/fltbtn"
+        android:contentDescription="@string/img_fltbtn"
+        />
+
+</RelativeLayout>
