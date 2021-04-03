@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice {
+public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice,dialog_custom.tofragCREDproces {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -130,5 +130,12 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 */
     }
 
+    public void ondialogBtnSelected(){
 
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs());
+        fragmentTransaction.commit();
+
+    }
 }

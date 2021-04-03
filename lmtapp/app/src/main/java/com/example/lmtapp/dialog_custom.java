@@ -1,5 +1,7 @@
 package com.example.lmtapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,12 +24,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class dialog_custom extends DialogFragment {
+    private dialog_custom.tofragCREDproces listener;
     private EditText editText;
     private Button oks,cls;
   // private static final String TAG = "dialog_custom";
@@ -40,8 +45,49 @@ public class dialog_custom extends DialogFragment {
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
-
+    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
     String edt_code;
+
+    public dialog_custom( String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd, String usr_username) {
+
+        this.usr_id = usr_id;
+        this.usr_code = usr_code;
+        this.usr_fullname = usr_fullname;
+        this.usr_cpnumber = usr_cpnumber;
+        this.usr_address = usr_address;
+        this.usr_birthdate = usr_birthdate;
+        this.usr_emailadd = usr_emailadd;
+        this.usr_username = usr_username;
+    }
+
+    public String getUsr_id() {
+        return usr_id;
+    }
+
+    public String getUsr_code() {
+        return usr_code;
+    }
+
+    public String getUsr_fullname() {
+        return usr_fullname;
+    }
+
+    public String getUsr_cpnumber() {
+        return usr_cpnumber;
+    }
+
+    public String getUsr_address() {
+        return usr_address;
+    }
+
+    public String getUsr_birthdate() {
+        return usr_birthdate;
+    }
+
+    public String getUsr_emailadd() {
+        return usr_emailadd;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,24 +109,50 @@ public class dialog_custom extends DialogFragment {
 
         return rootview;
     }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if(context instanceof dialog_custom.tofragCREDproces){
+
+            listener = (dialog_custom.tofragCREDproces) context;
+        }else {
+            throw  new ClassCastException(context.toString() + "must implement listener");
+        }
+    }
+    public interface  tofragCREDproces{
+        void ondialogBtnSelected();
+    }
     private void sendData () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    success = jobj.getInt(TAG_SUCCESS);
-                    if (success == 1) {
+                   String success = jobj.getString("success");
+                    JSONArray sad = jobj.getJSONArray("user_info");
+                    if (success.equals("1")) {
+                        for (int i = 0; i < jobj.length() - 1; i++) {
+                            JSONObject sads = sad.getJSONObject(i);
+                            usr_id = sads.getString("usr_id");
+                            usr_code = sads.getString("usr_code");
+                            usr_fullname = sads.getString("usr_fullname");
+                            usr_cpnumber = sads.getString("usr_cpnumber");
+                            usr_address = sads.getString("usr_address");
+                            usr_birthdate = sads.getString("usr_birthdate");
+                            usr_emailadd = sads.getString("usr_emailadd");
+                            usr_username = sads.getString("usr_username");
+                            usr_password = sads.getString("usr_password");
 
-
-                        Toast.makeText(getContext().getApplicationContext(),"", Toast.LENGTH_SHORT).show();
-
+                        }
+                        Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Code exist", Toast.LENGTH_SHORT).show();
+                      Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment,new frag_CredLoan_transProcs(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).commit();
+                      getDialog().dismiss();
                     } else {
-
+                        Toast.makeText(getContext().getApplicationContext(), "Code doesnt exist", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
 
-                    Toast.makeText(getContext().getApplicationContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext().getApplicationContext(), "catch : Error Occured -> " + e, Toast.LENGTH_SHORT).show();
 
                 }
             }
