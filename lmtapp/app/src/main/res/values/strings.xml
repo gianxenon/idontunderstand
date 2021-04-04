@@ -55,4 +55,8 @@
     <string name="imagess">images</string>
     <string name="code_edt">Enter Code</string>
     <string name="code_btnOk">OK</string>
+    <string name="deb_fn">Fullname</string>
+    <string name="deb_cpnum">Contact Number</string>
+    <string name="deb_emls">Email Address</string>
+    <string name="deb_adrs">Home Address</string>
 </resources>

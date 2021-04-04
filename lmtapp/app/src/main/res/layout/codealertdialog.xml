@@ -18,7 +18,7 @@
             android:id="@+id/code_edt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:ems="15"
             android:inputType="textPersonName"
             android:layout_centerInParent="true"
             android:hint="@string/code_edt"

@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class dialog_custom extends DialogFragment {
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+
+public class dialog_custom  extends DialogFragment  {
     private dialog_custom.tofragCREDproces listener;
     private EditText editText;
     private Button oks,cls;
@@ -46,47 +49,10 @@ public class dialog_custom extends DialogFragment {
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
-    String edt_code;
+    public static String edt_code;
 
-    public dialog_custom( String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd, String usr_username) {
 
-        this.usr_id = usr_id;
-        this.usr_code = usr_code;
-        this.usr_fullname = usr_fullname;
-        this.usr_cpnumber = usr_cpnumber;
-        this.usr_address = usr_address;
-        this.usr_birthdate = usr_birthdate;
-        this.usr_emailadd = usr_emailadd;
-        this.usr_username = usr_username;
-    }
 
-    public String getUsr_id() {
-        return usr_id;
-    }
-
-    public String getUsr_code() {
-        return usr_code;
-    }
-
-    public String getUsr_fullname() {
-        return usr_fullname;
-    }
-
-    public String getUsr_cpnumber() {
-        return usr_cpnumber;
-    }
-
-    public String getUsr_address() {
-        return usr_address;
-    }
-
-    public String getUsr_birthdate() {
-        return usr_birthdate;
-    }
-
-    public String getUsr_emailadd() {
-        return usr_emailadd;
-    }
 
     @Nullable
     @Override
@@ -96,6 +62,7 @@ public class dialog_custom extends DialogFragment {
         editText = rootview.findViewById(R.id.code_edt);
         oks = rootview.findViewById(R.id.code_btnOk);
         edt_code = editText.getText().toString();
+        requestQueue = Volley.newRequestQueue(getContext().getApplicationContext());
         oks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +71,6 @@ public class dialog_custom extends DialogFragment {
 
             }
         });
-
 
 
         return rootview;
@@ -127,11 +93,12 @@ public class dialog_custom extends DialogFragment {
             @Override
             public void onResponse(String response) {
                 try {
+
                     JSONObject jobj = new JSONObject(response);
                    String success = jobj.getString("success");
                     JSONArray sad = jobj.getJSONArray("user_info");
                     if (success.equals("1")) {
-                        for (int i = 0; i < jobj.length() - 1; i++) {
+                        for (int i = 0; i < jobj.length()  -1 ; i++) {
                             JSONObject sads = sad.getJSONObject(i);
                             usr_id = sads.getString("usr_id");
                             usr_code = sads.getString("usr_code");
@@ -140,14 +107,22 @@ public class dialog_custom extends DialogFragment {
                             usr_address = sads.getString("usr_address");
                             usr_birthdate = sads.getString("usr_birthdate");
                             usr_emailadd = sads.getString("usr_emailadd");
-                            usr_username = sads.getString("usr_username");
-                            usr_password = sads.getString("usr_password");
 
                         }
+                        data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+                        dataConstructor.setUsr_id(usr_id);
+                        dataConstructor.setUsr_code(usr_code);
+                        dataConstructor.setUsr_fullname(usr_fullname);
+                        dataConstructor.setUsr_cpnumber(usr_cpnumber);
+                        dataConstructor.setUsr_address(usr_address);
+                        dataConstructor.setUsr_birthdate(usr_birthdate);
+                        dataConstructor.setUsr_emailadd(usr_emailadd);
+
                         Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Code exist", Toast.LENGTH_SHORT).show();
-                      Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.container_fragment,new frag_CredLoan_transProcs(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).commit();
+                        listener.ondialogBtnSelected();
                       getDialog().dismiss();
                     } else {
+
                         Toast.makeText(getContext().getApplicationContext(), "Code doesnt exist", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -166,10 +141,12 @@ public class dialog_custom extends DialogFragment {
         }) {
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("usr_code", edt_code);
+                params.put("usr_code", editText.getText().toString());
+
                 return params;
             }
         };
+
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
         requestQueue.add(stringRequest);
     }

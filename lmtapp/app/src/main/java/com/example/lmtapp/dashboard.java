@@ -21,7 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice,dialog_custom.tofragCREDproces {
+public class dashboard extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,
+        dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice,dialog_custom.tofragCREDproces {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -32,6 +33,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
     ImageView logdash;
     TextView  draw_txt;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,10 +136,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void ondialogBtnSelected(){
-
+data_constructor dataConstructor = new data_constructor(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs());
+        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(dataConstructor.getUsr_id(),dataConstructor.getUsr_code(),dataConstructor.getUsr_fullname(),dataConstructor.getUsr_cpnumber(),dataConstructor.getUsr_address(),dataConstructor.getUsr_birthdate(),dataConstructor.getUsr_emailadd()));
         fragmentTransaction.commit();
 
     }
