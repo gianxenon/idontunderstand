@@ -59,4 +59,13 @@
     <string name="deb_cpnum">Contact Number</string>
     <string name="deb_emls">Email Address</string>
     <string name="deb_adrs">Home Address</string>
+    <string name="proc_loan_edtDate">Date</string>
+    <string name="txt_row1">sdadad</string>
+    <string name="txt_row2" >sdasdasd</string>
+    <string name="txt_row3">asdasd</string>
+    <string name="txt_row4" >asdasdasd</string>
+    <string name="proc_loan_edtInt">Interest</string>
+    <string name="proc_loan_edtPrinAmount">Principal Amount</string>
+    <string name="proc_loan_edtTerm">Terms</string>
+    <string name="proc_loan_edtPeriod">No. of Period</string>
 </resources>

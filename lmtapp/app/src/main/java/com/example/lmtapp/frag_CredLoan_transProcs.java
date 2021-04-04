@@ -7,13 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class frag_CredLoan_transProcs extends Fragment {
 
-
+    ListView list_Views;
+    public static ArrayList<procdata_list> lists= new ArrayList<>();
+    MyProcessAdapter adapaterLists;
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd;
-
+    procdata_list procdataList;
     public frag_CredLoan_transProcs(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd) {
         this.usr_id = usr_id;
         this.usr_code = usr_code;
@@ -28,9 +34,22 @@ public class frag_CredLoan_transProcs extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view =   inflater.inflate(R.layout.fragment_frag__cred_loan_trans_procs, container, false);
 
+        list_Views = view.findViewById(R.id.list_tableView);
+        listShow();
 
+        adapaterLists = new MyProcessAdapter(getContext(),lists);
+        list_Views.setAdapter(adapaterLists);
 
-
+        EditText txt = view.findViewById(R.id.deb_fn);
+        txt.setText(usr_fullname);
         return  view;
     }
+
+
+    private void listShow(){
+        String row1 = "adasd";
+        procdataList =  new procdata_list( row1,"sdsa","dada","Ddsad");
+        lists.add(procdataList);
+    }
+
 }

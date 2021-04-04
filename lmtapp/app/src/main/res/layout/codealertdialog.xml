@@ -18,13 +18,13 @@
             android:id="@+id/code_edt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="15"
-            android:inputType="textPersonName"
             android:layout_centerInParent="true"
-            android:hint="@string/code_edt"
+            android:background="@drawable/searchbg"
+            android:ems="15"
             android:gravity="center"
+            android:hint="@string/code_edt"
             android:importantForAutofill="no"
-            android:background="@drawable/searchbg"/>
+            android:inputType="number|textPersonName" />
 
         <Button
             android:id="@+id/code_btnOk"

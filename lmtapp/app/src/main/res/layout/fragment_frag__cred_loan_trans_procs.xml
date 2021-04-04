@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".frag_CredLoan_transProcs">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="1000dp"
-        android:background="#6fd0fe"
-        >
 
 
         <RelativeLayout
             android:id="@+id/user_info"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="#0088c6">
+            android:layout_margin="10dp"
+            android:background="#6fd0fe">
 
             <EditText
                 android:id="@+id/deb_fn"
@@ -27,7 +22,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:hint="@string/deb_fn"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
@@ -77,8 +72,6 @@
                 android:hint="@string/deb_adrs"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
                 android:textSize="12sp"
                 tools:ignore="RtlSymmetry" />
 
@@ -88,70 +81,92 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:background="#6fd0fe"
             android:layout_below="@id/user_info">
 
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
-                android:layout_width="match_parent"
+                android:id="@+id/proc_loan_edtDate"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:layout_gravity="center"
+                android:inputType="date"
+                android:importantForAutofill="no"
+                android:focusable="false"
+                android:hint="@string/proc_loan_edtDate" />
 
             <EditText
-                android:id="@+id/editTextNumber"
-                android:layout_width="match_parent"
+                android:id="@+id/proc_loan_edtInt"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_gravity="center"
+                android:hint="@string/proc_loan_edtInt"
+                android:importantForAutofill="no"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/editTextNumber2"
-                android:layout_width="match_parent"
+                android:id="@+id/proc_loan_edtPrinAmount"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_gravity="center"
+                android:importantForAutofill="no"
+                android:hint="@string/proc_loan_edtPrinAmount"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/editTextNumber3"
-                android:layout_width="match_parent"
+                android:id="@+id/proc_loan_edtTerm"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_gravity="center"
+                android:hint="@string/proc_loan_edtTerm"
+                android:importantForAutofill="no"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/editTextNumber4"
-                android:layout_width="match_parent"
+                android:id="@+id/proc_loan_edtPeriod"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_gravity="center"
+                android:hint="@string/proc_loan_edtPeriod"
+
+                android:importantForAutofill="no"
                 android:inputType="number" />
 
             <Spinner
                 android:id="@+id/spinner2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <LinearLayout
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@drawable/listviewdesign"
+                android:orientation="vertical">
+
+
+                <ListView
+                    android:id="@+id/list_tableView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:padding="6dp"
+                    android:scrollbars="none" />
 
-                    <ListView
-                        android:layout_width="match_parent"
-                        android:layout_height="400dp" />
-                </LinearLayout>
-            </ScrollView>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
     </RelativeLayout>
 
 
-</ScrollView>
+
