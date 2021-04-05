@@ -46,9 +46,9 @@ public class MyAdapter extends BaseAdapter {
         TextView title = (TextView) convertView.findViewById(R.id.txt_name);
         TextView  description =  convertView.findViewById(R.id.txt_numvWing);
         ImageView imageView = convertView.findViewById(R.id.img_vCs);
-title.setText(listpojos.get(position).getTitle());
-description.setText(listpojos.get(position).getDescription());
-imageView.setImageResource(listpojos.get(position).getImages());
+        title.setText(listpojos.get(position).getTitle());
+        description.setText(listpojos.get(position).getDescription());
+        imageView.setImageResource(listpojos.get(position).getImages());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

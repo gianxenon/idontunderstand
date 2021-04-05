@@ -1,6 +1,7 @@
 package com.example.lmtapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ public class MyProcessAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return procdataLists.size();
     }
 
     @Override
@@ -37,9 +38,11 @@ public class MyProcessAdapter extends BaseAdapter {
 
 
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.loan_proc_list,parent,false);
+
+        convertView = LayoutInflater.from(this.context).inflate(R.layout.loan_proc_list,parent,false);
         TextView  row1 = (TextView) convertView.findViewById(R.id.txt_row1);
         TextView  row2 = (TextView) convertView.findViewById(R.id.txt_row2);
         TextView  row3 = (TextView) convertView.findViewById(R.id.txt_row3);

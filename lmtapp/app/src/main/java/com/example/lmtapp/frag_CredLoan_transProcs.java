@@ -19,7 +19,7 @@ public class frag_CredLoan_transProcs extends Fragment {
     public static ArrayList<procdata_list> lists= new ArrayList<procdata_list>();
     MyProcessAdapter adapaterLists;
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd;
-    procdata_list procdataList;
+    procdata_list listPojosa;
     public frag_CredLoan_transProcs(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd) {
         this.usr_id = usr_id;
         this.usr_code = usr_code;
@@ -38,7 +38,6 @@ public class frag_CredLoan_transProcs extends Fragment {
 
 
         adapaterLists = new MyProcessAdapter(getContext(),lists);
-
         list_Views.setAdapter(adapaterLists);
         listShow();
         EditText txt = view.findViewById(R.id.deb_fn);
@@ -48,24 +47,10 @@ public class frag_CredLoan_transProcs extends Fragment {
 
 
     private void listShow(){
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
-        lists.add(  procdataList = new procdata_list("dasda","asdada","asdasda","asdasda"));
+
+        listPojosa = new procdata_list("sdasd","asdasd","asdaa","asdasda");
+        lists.add(listPojosa);
+        adapaterLists.notifyDataSetChanged();
 
     }
 
