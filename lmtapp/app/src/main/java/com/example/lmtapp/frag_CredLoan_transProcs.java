@@ -69,10 +69,7 @@ btn_breakdown.setOnClickListener(v -> {
         Toast.makeText(getContext(),"Fields cannot be empty",Toast.LENGTH_SHORT).show();
 
     }else {
-        terms = Integer.parseInt(edt_terms.getText().toString());
-        noOfPeriod = Integer.parseInt(edt_terms.getText().toString());
-        interest_rate = Double.parseDouble(edt_Int.getText().toString());
-        principal_amount = Double.parseDouble(edt_prinAmount.getText().toString());
+
         listShow();
     }
 });
@@ -86,19 +83,33 @@ btn_reset.setOnClickListener(v -> {
 
 
     private void listShow(){
-
-       int nper = terms * 12 /noOfPeriod;
-
-       for(int i = 0; i <= nper;i++){
+        terms = Integer.parseInt(edt_terms.getText().toString());
+        noOfPeriod = Integer.parseInt(edt_Period.getText().toString());
+        interest_rate = Double.parseDouble(edt_Int.getText().toString());
+        principal_amount = Double.parseDouble(edt_prinAmount.getText().toString());
+       int nper = terms * noOfPeriod;
+        double pv = principal_amount;
+        double int_paid=0;
+        double prin_paid=0;
+        double ttl_payment=0;
+        double balance =0;
+       for(int i = 1; i <= nper ; i++){
            DecimalFormat df2 = new DecimalFormat("#.####");
-           double int_paid = principal_amount * interest_rate;
-           double prin_paid = principal_amount /nper;
-           double ttl_payment = prin_paid + int_paid;
-           double balance = principal_amount - prin_paid;
-           principal_amount = balance;
-           nper -= 1;
-           listPojosa = new procdata_list(String.valueOf(i), df2.format(ttl_payment), df2.format(prin_paid), df2.format(int_paid), df2.format(balance));
+
+            int_paid = ((pv * interest_rate) / noOfPeriod );
+
+            prin_paid = pv  / noOfPeriod;
+
+           ttl_payment = prin_paid + int_paid;
+
+           pv -= prin_paid;
+
+
+           listPojosa = new procdata_list(String.valueOf(i), df2.format(ttl_payment), df2.format(prin_paid), df2.format(int_paid), df2.format(pv));
            lists.add(listPojosa);
+           adapaterLists.notifyDataSetChanged();
+
+
        }
 
 
