@@ -9,7 +9,7 @@
         <RelativeLayout
             android:id="@+id/user_info"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="170dp"
             android:layout_margin="10dp"
             android:background="#6fd0fe">
 
@@ -83,25 +83,39 @@
     android:layout_below="@id/user_info"
     android:layout_margin="10dp"
     android:background="#6fd0fe">
+
         <LinearLayout
             android:id="@+id/lay1s"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="200dp"
             android:orientation="vertical"
-
             android:background="#6fd0fe"
             >
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <EditText
+        android:id="@+id/proc_loan_edtPeriod"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/proc_loan_edtPeriod"
+        android:textSize="16sp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
+        android:importantForAutofill="no"
+        android:inputType="number" />
 
-            <EditText
-                android:id="@+id/proc_loan_edtDate"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:inputType="date"
-                android:importantForAutofill="no"
-                android:focusable="false"
-                android:hint="@string/proc_loan_edtDate" />
+    <EditText
+        android:id="@+id/proc_loan_edtTerm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/proc_loan_edtTerm"
+        android:importantForAutofill="no"
+        android:textSize="16sp"
+        android:inputType="number" />
+</LinearLayout>
 
             <EditText
                 android:id="@+id/proc_loan_edtInt"
@@ -110,7 +124,8 @@
                 android:layout_gravity="center"
                 android:hint="@string/proc_loan_edtInt"
                 android:importantForAutofill="no"
-                android:inputType="number" />
+                android:textSize="16sp"
+                android:inputType="numberDecimal" />
 
             <EditText
                 android:id="@+id/proc_loan_edtPrinAmount"
@@ -119,49 +134,110 @@
                 android:layout_gravity="center"
                 android:importantForAutofill="no"
                 android:hint="@string/proc_loan_edtPrinAmount"
-                android:inputType="number" />
+                android:textSize="16sp"
+                android:inputType="numberDecimal" />
 
-            <EditText
-                android:id="@+id/proc_loan_edtTerm"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="@string/proc_loan_edtTerm"
-                android:importantForAutofill="no"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/proc_loan_edtPeriod"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="@string/proc_loan_edtPeriod"
-
-                android:importantForAutofill="no"
-                android:inputType="number" />
 
             <Spinner
                 android:id="@+id/spinner2"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spinnerbg"
                 android:layout_gravity="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_reset"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            tools:ignore="ButtonStyle" />
+            <Button
+                android:id="@+id/btn_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_process"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                tools:ignore="ButtonStyle" />
 
 
 
+    </LinearLayout>
         </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="250dp"
         android:orientation="vertical"
         android:layout_below="@+id/lay1s">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/titleRow_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/titleRow_1" />
+
+            <TextView
+                android:id="@+id/txtRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtRow2" />
+
+            <TextView
+                android:id="@+id/txtRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtRow3" />
+
+            <TextView
+                android:id="@+id/txtRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtRow4" />
+
+            <TextView
+                android:id="@+id/txtBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/txtBalance" />
+
+        </LinearLayout>
 
         <ListView
             android:id="@+id/list_tableView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_saveProcess"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/btn_saveProcess" />
 </RelativeLayout>
     </RelativeLayout>
 

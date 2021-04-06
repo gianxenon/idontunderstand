@@ -68,4 +68,14 @@
     <string name="proc_loan_edtPrinAmount">Principal Amount</string>
     <string name="proc_loan_edtTerm">Terms</string>
     <string name="proc_loan_edtPeriod">No. of Period</string>
+    <string name="titleRow_1">No. of Periods</string>
+    <string name="txtRow2">Payment</string>
+    <string name="txtRow3">Principal Paid</string>
+    <string name="txtRow4">Interest Paid</string>
+    <string name="txtBalance">Balance</string>
+    <string name="txt_row5">asdasdasd</string>
+    <string name="btn_process">Breakdown</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_saveProcess">Process</string>
+
 </resources>

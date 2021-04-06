@@ -47,10 +47,12 @@ public class MyProcessAdapter extends BaseAdapter {
         TextView  row2 = (TextView) convertView.findViewById(R.id.txt_row2);
         TextView  row3 = (TextView) convertView.findViewById(R.id.txt_row3);
         TextView  row4 = (TextView) convertView.findViewById(R.id.txt_row4);
+        TextView  row5 = (TextView) convertView.findViewById(R.id.txt_row5);
         row1.setText(procdataLists.get(position).getRow1());
         row2.setText(procdataLists.get(position).getRow2());
         row3.setText(procdataLists.get(position).getRow3());
         row4.setText(procdataLists.get(position).getRow4());
+        row5.setText(procdataLists.get(position).getRow5());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
