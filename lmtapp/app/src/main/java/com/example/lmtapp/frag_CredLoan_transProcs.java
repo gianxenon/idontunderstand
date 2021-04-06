@@ -87,25 +87,33 @@ btn_reset.setOnClickListener(v -> {
         noOfPeriod = Integer.parseInt(edt_Period.getText().toString());
         interest_rate = Double.parseDouble(edt_Int.getText().toString());
         principal_amount = Double.parseDouble(edt_prinAmount.getText().toString());
-       int nper = terms * noOfPeriod;
-        double pv = principal_amount;
-        double int_paid=0;
-        double prin_paid=0;
-        double ttl_payment=0;
-        double balance =0;
-       for(int i = 1; i <= nper ; i++){
+        double n=terms*12;
+        double r=(interest_rate/100)/n;
+        double b=1+r;
+        double x = (float) Math.pow(b,-n);
+        double payFormula=(r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
+        double prinFormula;
+        double inteFormula;
+        double p = 0;
+        double e  ;
+        double t;
+        double bal;
+        bal = principal_amount;
+       for(int i = 1; i <= n ; i++){
            DecimalFormat df2 = new DecimalFormat("#.####");
 
-            int_paid = ((pv * interest_rate) / noOfPeriod );
 
-            prin_paid = pv  / noOfPeriod;
+           e=(float) Math.pow(1+r,i);
+           t=(float) Math.pow(1+r,i);
+           prinFormula=payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
+           inteFormula=(-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
+            bal -= prinFormula;
 
-           ttl_payment = prin_paid + int_paid;
-
-           pv -= prin_paid;
 
 
-           listPojosa = new procdata_list(String.valueOf(i), df2.format(ttl_payment), df2.format(prin_paid), df2.format(int_paid), df2.format(pv));
+
+
+           listPojosa = new procdata_list(String.valueOf(i), df2.format(payFormula), df2.format(prinFormula), df2.format(inteFormula), df2.format(bal));
            lists.add(listPojosa);
            adapaterLists.notifyDataSetChanged();
 
