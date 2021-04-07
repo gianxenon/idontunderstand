@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:layout_margin="10dp"
-            android:background="#6fd0fe">
+            android:background="#dbf2fd">
 
             <EditText
                 android:id="@+id/deb_fn"
@@ -82,14 +82,14 @@
     android:layout_height="match_parent"
     android:layout_below="@id/user_info"
     android:layout_margin="10dp"
-    android:background="#6fd0fe">
+    android:background="#dbf2fd">
 
         <LinearLayout
             android:id="@+id/lay1s"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:orientation="vertical"
-            android:background="#6fd0fe"
+            android:background="#dbf2fd"
             >
 
 <LinearLayout
@@ -102,10 +102,11 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/spinnerbg"
-        android:layout_marginLeft="45dp"
-        android:layout_marginStart="45dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_gravity="center_vertical"
          />
 
 
@@ -149,19 +150,21 @@
 
         <Button
             android:id="@+id/btn_reset"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:text="@string/btn_reset"
             android:layout_marginLeft="50dp"
             android:layout_marginStart="50dp"
+            android:background="@drawable/btn_corners"
             tools:ignore="ButtonStyle" />
             <Button
                 android:id="@+id/btn_process"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="@string/btn_process"
                 android:layout_marginLeft="50dp"
                 android:layout_marginStart="50dp"
+                android:background="@drawable/btn_corners"
                 tools:ignore="ButtonStyle" />
 
 
@@ -221,14 +224,16 @@
         <ListView
             android:id="@+id/list_tableView"
             android:layout_width="match_parent"
-            android:layout_height="225dp" />
+            android:layout_height="200dp" />
 
         <Button
             android:id="@+id/btn_saveProcess"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_corners"
             android:text="@string/btn_saveProcess" />
     </LinearLayout>
 
