@@ -1,5 +1,6 @@
 package com.example.lmtapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,12 +16,23 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class frag_CredLoan_transProcs extends Fragment {
-
+    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
+    private RequestQueue requestQueue;
     ListView list_Views;
     public static ArrayList<procdata_list> lists= new ArrayList<>();
     MyProcessAdapter adapaterLists;
@@ -190,5 +202,50 @@ btn_reset.setOnClickListener(v -> {
     }
 
 
+    private void sendData(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("1")) {
 
+
+
+                    } else {
+                        Toast.makeText(getContext(),"Registration Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show();
+            }
+        }){
+            public Map<String , String> getParams(){
+                Map<String, String> params = new HashMap<String, String>();
+    for(int i = 0 ; i < lists.size() ;i++){
+
+
+                params.put("cred_code",usr_code  );
+                params.put("usr_fullname", f.getText().toString());
+                params.put("usr_cpnumber", num.getText().toString());
+                params.put("usr_address", adrs.getText().toString());
+                params.put("usr_birthdate", editTextDate.getText().toString());
+                params.put("usr_emailadd", emls.getText().toString());
+                params.put("usr_username", usr.getText().toString());
+                params.put("usr_password", pas.getText().toString());
+                return  params;
+    }
+            }
+        };
+
+        //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+        requestQueue.add(stringRequest);
+    }
 }
