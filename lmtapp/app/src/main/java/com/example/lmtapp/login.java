@@ -35,11 +35,9 @@ public class login extends AppCompatActivity {
     String usr,pas ="";
     EditText uname,pword;
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/login.php";
-
     private RequestQueue requestQueue;
     private static final String TAG= login.class.getSimpleName();
     private  String tag_json_obj= "json_obj_req";
-
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
 
     @Override
@@ -49,8 +47,6 @@ public class login extends AppCompatActivity {
         clkalbe_tvw=findViewById(R.id.textView3);
         uname = findViewById(R.id.edt_logUname);
         pword = findViewById(R.id.edt_logLogin);
-
-
 
         clkalbe_tvw.setOnClickListener(v -> {
             Intent intent = new Intent(login.this,registration.class);
@@ -92,8 +88,6 @@ public class login extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
     }
-
-
     private void sendUrl(){
 
         StringRequest stringRequest  = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
@@ -129,7 +123,6 @@ public class login extends AppCompatActivity {
                             intent.putExtra("usr_emailadd",usr_emailadd);
                             intent.putExtra("usr_username",usr_username);
                             intent.putExtra("usr_password",usr_password);
-
                             startActivity(intent);
                             finish();
                     } else {

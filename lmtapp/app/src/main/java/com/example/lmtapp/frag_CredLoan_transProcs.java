@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
@@ -27,6 +30,7 @@ public class frag_CredLoan_transProcs extends Fragment {
     EditText edt_terms;
     EditText edt_Int;
     EditText edt_prinAmount;
+    String ofChoice = "";
     //computation Variables
         int terms;
         int noOfPeriod;
@@ -49,22 +53,43 @@ public class frag_CredLoan_transProcs extends Fragment {
 
         list_Views = view.findViewById(R.id.list_tableView);
         //loan fields
-        edt_Period = view.findViewById(R.id.proc_loan_edtPeriod);
+       // edt_Period = view.findViewById(R.id.proc_loan_edtPeriod);
         edt_terms = view.findViewById(R.id.proc_loan_edtTerm);
         edt_Int = view.findViewById(R.id.proc_loan_edtInt);
         edt_prinAmount = view.findViewById(R.id.proc_loan_edtPrinAmount);
         Button btn_reset = view.findViewById(R.id.btn_reset);
         Button btn_breakdown = view.findViewById(R.id.btn_process);
+        Spinner spinner_log = view.findViewById(R.id.proc_loan_edtPeriod);
+        final ArrayList<String> choice = new ArrayList<>();
 
 
+        choice.add("Type of Terms");
+        choice.add("Years (Monthly Payment)");
+        choice.add("Months (Monthly Payment)");
+        choice.add("Months (Daily Payment");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, choice);
+        spinner_log.setAdapter(adapter);
+
+        spinner_log.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ofChoice = choice.get(position);
+                Toast.makeText(getContext(),"you selected " + ofChoice,Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //
+
         adapaterLists = new MyProcessAdapter(getContext(),lists);
         list_Views.setAdapter(adapaterLists);
 
         EditText txt = view.findViewById(R.id.deb_fn);
         txt.setText(usr_fullname);
-btn_breakdown.setOnClickListener(v -> {
+    btn_breakdown.setOnClickListener(v -> {
     if(edt_terms.getText().toString().equals("") && edt_Period.getText().toString().equals("") && edt_prinAmount.getText().toString().equals("") && edt_Int.getText().toString().equals("")){
         Toast.makeText(getContext(),"Fields cannot be empty",Toast.LENGTH_SHORT).show();
 
@@ -72,7 +97,7 @@ btn_breakdown.setOnClickListener(v -> {
 
         listShow();
     }
-});
+    });
 
 btn_reset.setOnClickListener(v -> {
     lists.clear();
@@ -80,43 +105,90 @@ btn_reset.setOnClickListener(v -> {
 });
         return  view;
     }
-
+    //noOfPeriod = Integer.parseInt(edt_Period.getText().toString());
 
     private void listShow(){
         terms = Integer.parseInt(edt_terms.getText().toString());
-        noOfPeriod = Integer.parseInt(edt_Period.getText().toString());
         interest_rate = Double.parseDouble(edt_Int.getText().toString());
         principal_amount = Double.parseDouble(edt_prinAmount.getText().toString());
 
-        double n=terms*12 ;
-        double r=(interest_rate/100)/n;
-        double b=1+r;
-        double x = (float) Math.pow(b,-n);
+        if(ofChoice.equals("Years (Monthly Payment)")) {
+            double n = terms * 12;
+            double r = (interest_rate / 100) / n;
+            double b = 1 + r;
+            double x = (float) Math.pow(b, -n);
+            double payFormula = (r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
+            double prinFormula;
+            double inteFormula;
+            double bal = payFormula * n;
+            double e;
+            double t;
+            for (int i = 1; i <= n; i++) {
+                DecimalFormat df2 = new DecimalFormat("#.####");
+                e = (float) Math.pow(1 + r, i - 1);
+                t = (float) Math.pow(1 + r, i - 1);
+                prinFormula = payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
+                inteFormula = (-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
+                bal = bal - payFormula;
+                listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
+                lists.add(listPojosa);
 
-        double payFormula=(r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
-        double prinFormula;
-        double inteFormula;
-        double bal =payFormula * n  ;
-        double e  ;
-        double t;
-        double  p =0;
+            }
+            adapaterLists.notifyDataSetChanged();
+        }else if(ofChoice.equals("Months (Monthly Payment)")){
 
-       for(int i = 1; i <= n ; i++){
-           DecimalFormat df2 = new DecimalFormat("#.####");
+            double n=(terms / (double) 12)*12;
+            double r = (interest_rate / 100) / n;
+            double b = 1 + r;
+            double x = (float) Math.pow(b, -n);
+            double payFormula = (r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
+            double prinFormula;
+            double inteFormula;
+            double bal = payFormula * n;
+            double e;
+            double t;
 
-           e=(float) Math.pow(1+r,i-1);
-           t=(float) Math.pow(1+r,i-1);
-           prinFormula=payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
-           inteFormula=(-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
-           bal =  bal  - payFormula;
+            for (int i = 1; i <= n; i++) {
+                DecimalFormat df2 = new DecimalFormat("#.####");
+                e = (float) Math.pow(1 + r, i - 1);
+                t = (float) Math.pow(1 + r, i - 1);
+                prinFormula = payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
+                inteFormula = (-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
+                bal = bal - payFormula;
+                listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
+                lists.add(listPojosa);
+            }
+            adapaterLists.notifyDataSetChanged();
+        }else{
+            int d=360;
+            int k=12;
+            double c=(terms/ (double) k);
+            double n=c*d;
+            double r = (interest_rate / 100) / n;
+            double b = 1 + r;
+            double x = (float) Math.pow(b, -n);
+            double payFormula = (r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
+            double prinFormula;
+            double inteFormula;
+            double bal = payFormula * n;
+            double e;
+            double t;
+            for (int i = 1; i <= n; i++) {
+                DecimalFormat df2 = new DecimalFormat("#.####");
+                e = (float) Math.pow(1 + r, i - 1);
+                t = (float) Math.pow(1 + r, i - 1);
+                prinFormula = payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
+                inteFormula = (-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
+                bal = bal - payFormula;
+                listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
+                lists.add(listPojosa);
 
-               listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
-
-           lists.add(listPojosa);
-           adapaterLists.notifyDataSetChanged();
-       }
-        adapaterLists.notifyDataSetChanged();
+            }
+            adapaterLists.notifyDataSetChanged();
+        }
 
     }
+
+
 
 }

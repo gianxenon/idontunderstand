@@ -96,20 +96,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <EditText
+
+    <Spinner
         android:id="@+id/proc_loan_edtPeriod"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="@string/proc_loan_edtPeriod"
-        android:textSize="16sp"
+        android:background="@drawable/spinnerbg"
         android:layout_marginLeft="45dp"
         android:layout_marginStart="45dp"
-        android:importantForAutofill="no"
-        android:inputType="number" />
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+         />
+
+
 
     <EditText
         android:id="@+id/proc_loan_edtTerm"
-        android:layout_width="150dp"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:hint="@string/proc_loan_edtTerm"
         android:importantForAutofill="no"
@@ -138,14 +141,7 @@
                 android:inputType="numberDecimal" />
 
 
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/spinnerbg"
-                android:layout_gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -175,7 +171,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/lay1s">
 
@@ -225,19 +221,18 @@
         <ListView
             android:id="@+id/list_tableView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="225dp" />
 
-
+        <Button
+            android:id="@+id/btn_saveProcess"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/btn_saveProcess" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_saveProcess"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/btn_saveProcess" />
+
 </RelativeLayout>
     </RelativeLayout>
 
