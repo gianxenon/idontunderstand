@@ -1,6 +1,5 @@
 package com.example.lmtapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class frag_CredLoan_transProcs extends Fragment {
+public class frag_CredLoan_transProcs extends Fragment     {
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
     private RequestQueue requestQueue;
     ListView list_Views;
@@ -42,10 +42,11 @@ public class frag_CredLoan_transProcs extends Fragment {
     EditText edt_terms;
     EditText edt_Int;
     EditText edt_prinAmount;
+    EditText deb_fn, deb_cpnum,deb_emls,deb_adrs ;
     String ofChoice = "";
+    NavigationView navigationView;
     //computation Variables
         int terms;
-        int noOfPeriod;
         double interest_rate;
         double principal_amount;
 
@@ -59,29 +60,42 @@ public class frag_CredLoan_transProcs extends Fragment {
         this.usr_emailadd = usr_emailadd;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view =   inflater.inflate(R.layout.fragment_frag__cred_loan_trans_procs, container, false);
-
+        data_constructor dataConstructor = new data_constructor(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+       //
         list_Views = view.findViewById(R.id.list_tableView);
+
+        //debtor_info
+        deb_fn = view.findViewById(R.id.deb_fn);
+        deb_cpnum =  view.findViewById(R.id.deb_cpnum);
+        deb_emls =  view.findViewById(R.id.deb_emls);
+        deb_adrs =  view.findViewById(R.id.deb_adrs);
         //loan fields
-       // edt_Period = view.findViewById(R.id.proc_loan_edtPeriod);
+
         edt_terms = view.findViewById(R.id.proc_loan_edtTerm);
         edt_Int = view.findViewById(R.id.proc_loan_edtInt);
         edt_prinAmount = view.findViewById(R.id.proc_loan_edtPrinAmount);
         Button btn_reset = view.findViewById(R.id.btn_reset);
         Button btn_breakdown = view.findViewById(R.id.btn_process);
         Spinner spinner_log = view.findViewById(R.id.proc_loan_edtPeriod);
+/*
+        deb_fn.setText(dataconstructor.getUsr_fullname());
+        deb_cpnum.setText(dataconstructor.getUsr_cpnumber());
+        deb_emls.setText(dataconstructor.usr_emailadd);
+        deb_adrs.setText(dataconstructor.usr_address);
+*/
+        //spinner
+
         final ArrayList<String> choice = new ArrayList<>();
-
-
         choice.add("Type of Terms");
         choice.add("Years (Monthly Payment)");
         choice.add("Months (Monthly Payment)");
         choice.add("Months (Daily Payment");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, choice);
         spinner_log.setAdapter(adapter);
-
         spinner_log.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -98,9 +112,16 @@ public class frag_CredLoan_transProcs extends Fragment {
 
         adapaterLists = new MyProcessAdapter(getContext(),lists);
         list_Views.setAdapter(adapaterLists);
+        // debtor info
+        deb_fn = view.findViewById(R.id.deb_fn);
+        deb_emls =view.findViewById(R.id.deb_emls);
+        deb_adrs = view.findViewById(R.id.deb_adrs);
+        deb_cpnum = view.findViewById(R.id.deb_cpnum);
+        deb_fn.setText(usr_fullname);
+        deb_emls.setText(usr_emailadd);
+        deb_adrs.setText(usr_address);
+        deb_cpnum.setText(usr_cpnumber);
 
-        EditText txt = view.findViewById(R.id.deb_fn);
-        txt.setText(usr_fullname);
     btn_breakdown.setOnClickListener(v -> {
     if(edt_terms.getText().toString().equals("") && edt_Period.getText().toString().equals("") && edt_prinAmount.getText().toString().equals("") && edt_Int.getText().toString().equals("")){
         Toast.makeText(getContext(),"Fields cannot be empty",Toast.LENGTH_SHORT).show();
@@ -231,21 +252,25 @@ btn_reset.setOnClickListener(v -> {
                 Map<String, String> params = new HashMap<String, String>();
     for(int i = 0 ; i < lists.size() ;i++){
 
+        data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+        dataConstructor.setUsr_id(usr_id);
+        dataConstructor.setUsr_code(usr_code);
+        dataConstructor.setUsr_fullname(usr_fullname);
+        dataConstructor.setUsr_cpnumber(usr_cpnumber);
+        dataConstructor.setUsr_address(usr_address);
+        dataConstructor.setUsr_birthdate(usr_birthdate);
+        dataConstructor.setUsr_emailadd(usr_emailadd);
+                params.put("cred_code",   );
 
-                params.put("cred_code",usr_code  );
-                params.put("usr_fullname", f.getText().toString());
-                params.put("usr_cpnumber", num.getText().toString());
-                params.put("usr_address", adrs.getText().toString());
-                params.put("usr_birthdate", editTextDate.getText().toString());
-                params.put("usr_emailadd", emls.getText().toString());
-                params.put("usr_username", usr.getText().toString());
-                params.put("usr_password", pas.getText().toString());
+
+        }
                 return  params;
-    }
             }
+
         };
 
         //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
         requestQueue.add(stringRequest);
     }
+
 }

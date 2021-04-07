@@ -32,6 +32,17 @@
             android:layout_marginStart="20dp"
             android:text="@string/drawer_txt1"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/drawer_txt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/draw_img4"
+            android:layout_toEndOf="@+id/draw_img4"
+            android:layout_below="@id/drawer_txt1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/drawer_txt2" />
     </RelativeLayout>
 
     <ImageView

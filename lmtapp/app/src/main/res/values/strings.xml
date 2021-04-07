@@ -77,5 +77,6 @@
     <string name="btn_process">Breakdown</string>
     <string name="btn_reset">Reset</string>
     <string name="btn_saveProcess">Process</string>
+    <string name="drawer_txt2">number</string>
 
 </resources>

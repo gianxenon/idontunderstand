@@ -78,10 +78,18 @@ public class dashboard extends AppCompatActivity  implements NavigationView.OnNa
         View hView =  navigationView.inflateHeaderView(R.layout.drawer_header);
         ImageView imgvw = (ImageView)hView.findViewById(R.id.draw_img4);
         TextView draw_txt = (TextView)hView.findViewById(R.id.drawer_txt1);
+        TextView draw_txt2 = (TextView)hView.findViewById(R.id.drawer_txt2);
         draw_txt.setText(usr_fullname);
+        draw_txt2.setText(usr_cpnumber);
 
-
-
+        data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+        dataConstructor.setUsr_id(usr_id);
+        dataConstructor.setUsr_code(usr_code);
+        dataConstructor.setUsr_fullname(usr_fullname);
+        dataConstructor.setUsr_cpnumber(usr_cpnumber);
+        dataConstructor.setUsr_address(usr_address);
+        dataConstructor.setUsr_birthdate(usr_birthdate);
+        dataConstructor.setUsr_emailadd(usr_emailadd);
     }//On Create
 
 //drawer items
@@ -136,11 +144,11 @@ public class dashboard extends AppCompatActivity  implements NavigationView.OnNa
     }
 
     public void ondialogBtnSelected(){
-data_constructor dataConstructor = new data_constructor(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+/*
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(dataConstructor.getUsr_id(),dataConstructor.getUsr_code(),dataConstructor.getUsr_fullname(),dataConstructor.getUsr_cpnumber(),dataConstructor.getUsr_address(),dataConstructor.getUsr_birthdate(),dataConstructor.getUsr_emailadd()));
+        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs());
         fragmentTransaction.commit();
-
+*/
     }
 }
