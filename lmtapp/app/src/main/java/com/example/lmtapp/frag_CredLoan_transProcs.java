@@ -87,40 +87,34 @@ btn_reset.setOnClickListener(v -> {
         noOfPeriod = Integer.parseInt(edt_Period.getText().toString());
         interest_rate = Double.parseDouble(edt_Int.getText().toString());
         principal_amount = Double.parseDouble(edt_prinAmount.getText().toString());
-        double n=terms*12;
+
+        double n=terms*12 ;
         double r=(interest_rate/100)/n;
         double b=1+r;
         double x = (float) Math.pow(b,-n);
+
         double payFormula=(r / (1 - (x))) * -principal_amount; //(r / (1 - (1 + r)^-N)) * -pv
         double prinFormula;
         double inteFormula;
-        double p = 0;
+        double bal =payFormula * n  ;
         double e  ;
         double t;
-        double bal;
-        bal = principal_amount;
+        double  p =0;
+
        for(int i = 1; i <= n ; i++){
            DecimalFormat df2 = new DecimalFormat("#.####");
 
-
-           e=(float) Math.pow(1+r,i);
-           t=(float) Math.pow(1+r,i);
+           e=(float) Math.pow(1+r,i-1);
+           t=(float) Math.pow(1+r,i-1);
            prinFormula=payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
            inteFormula=(-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
-            bal -= prinFormula;
+           bal =  bal  - payFormula;
 
+               listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
 
-
-
-
-           listPojosa = new procdata_list(String.valueOf(i), df2.format(payFormula), df2.format(prinFormula), df2.format(inteFormula), df2.format(bal));
            lists.add(listPojosa);
            adapaterLists.notifyDataSetChanged();
-
-
        }
-
-
         adapaterLists.notifyDataSetChanged();
 
     }
