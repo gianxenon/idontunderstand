@@ -64,7 +64,7 @@ public class frag_CredLoan_transProcs extends Fragment     {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view =   inflater.inflate(R.layout.fragment_frag__cred_loan_trans_procs, container, false);
-        data_constructor dataConstructor = new data_constructor(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
+        data_constructor dataConstructor ;
        //
         list_Views = view.findViewById(R.id.list_tableView);
 
@@ -117,10 +117,12 @@ public class frag_CredLoan_transProcs extends Fragment     {
         deb_emls =view.findViewById(R.id.deb_emls);
         deb_adrs = view.findViewById(R.id.deb_adrs);
         deb_cpnum = view.findViewById(R.id.deb_cpnum);
-        deb_fn.setText(usr_fullname);
+       // deb_fn.setText(dataConstructor.getUsr_fullname());
         deb_emls.setText(usr_emailadd);
         deb_adrs.setText(usr_address);
         deb_cpnum.setText(usr_cpnumber);
+
+
 
     btn_breakdown.setOnClickListener(v -> {
     if(edt_terms.getText().toString().equals("") && edt_Period.getText().toString().equals("") && edt_prinAmount.getText().toString().equals("") && edt_Int.getText().toString().equals("")){
@@ -252,15 +254,8 @@ btn_reset.setOnClickListener(v -> {
                 Map<String, String> params = new HashMap<String, String>();
     for(int i = 0 ; i < lists.size() ;i++){
 
-        data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
-        dataConstructor.setUsr_id(usr_id);
-        dataConstructor.setUsr_code(usr_code);
-        dataConstructor.setUsr_fullname(usr_fullname);
-        dataConstructor.setUsr_cpnumber(usr_cpnumber);
-        dataConstructor.setUsr_address(usr_address);
-        dataConstructor.setUsr_birthdate(usr_birthdate);
-        dataConstructor.setUsr_emailadd(usr_emailadd);
-                params.put("cred_code",   );
+
+                params.put("cred_code","asda"  );
 
 
         }
