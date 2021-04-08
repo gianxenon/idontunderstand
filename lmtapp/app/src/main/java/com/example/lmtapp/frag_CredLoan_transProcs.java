@@ -1,9 +1,12 @@
 package com.example.lmtapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,17 +24,21 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class frag_CredLoan_transProcs extends Fragment     {
+public class frag_CredLoan_transProcs extends Fragment      {
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
     private RequestQueue requestQueue;
     ListView list_Views;
@@ -46,8 +52,8 @@ public class frag_CredLoan_transProcs extends Fragment     {
     EditText edt_prinAmount;
     EditText deb_fn, deb_cpnum,deb_emls,deb_adrs ;
     String ofChoice = "";
-    NavigationView navigationView;
-    String cred_code;
+    String temp = "";
+    String cred_codes,cred_ids,cred_fns;
     //computation Variables
         int terms;
         double interest_rate;
@@ -69,14 +75,31 @@ public class frag_CredLoan_transProcs extends Fragment     {
       View view =   inflater.inflate(R.layout.fragment_frag__cred_loan_trans_procs, container, false);
 
        //
-        list_Views = view.findViewById(R.id.list_tableView);
-        //drawer
-        navigationView = view.findViewById(R.id.navigationview);
-        View hView =  navigationView.inflateHeaderView(R.layout.drawer_header);
-        TextView draw_txt2 = (TextView) hView.findViewById(R.id.drawer_txt2);
-        cred_code = draw_txt2.getText().toString();
 
-        //debtor_info
+        list_Views = view.findViewById(R.id.list_tableView);
+
+        requestQueue = Volley.newRequestQueue(getContext());
+        try {
+            FileInputStream fin = getActivity().openFileInput("file.txt");
+            int c;
+
+            while( (c = fin.read()) != -1){
+                temp = temp + (char) c;
+            }
+
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        cred_codes = temp;
+
+
+
+    //debtor_info
         deb_fn = view.findViewById(R.id.deb_fn);
         deb_cpnum =  view.findViewById(R.id.deb_cpnum);
         deb_emls =  view.findViewById(R.id.deb_emls);
@@ -88,11 +111,11 @@ public class frag_CredLoan_transProcs extends Fragment     {
         edt_prinAmount = view.findViewById(R.id.proc_loan_edtPrinAmount);
         Button btn_reset = view.findViewById(R.id.btn_reset);
         Button btn_breakdown = view.findViewById(R.id.btn_process);
+        Button btn_process = view.findViewById(R.id.btn_saveProcess);
         Spinner spinner_log = view.findViewById(R.id.proc_loan_edtPeriod);
 
 
         //spinner
-
         final ArrayList<String> choice = new ArrayList<>();
         choice.add("Type of Terms");
         choice.add("Years (Monthly Payment)");
@@ -124,7 +147,9 @@ public class frag_CredLoan_transProcs extends Fragment     {
         deb_adrs.setText(usr_address);
         deb_cpnum.setText(usr_cpnumber);
 
-
+btn_process.setOnClickListener(v -> {
+    sendData();
+});
 
     btn_breakdown.setOnClickListener(v -> {
     if(edt_terms.getText().toString().equals("") && edt_Period.getText().toString().equals("") && edt_prinAmount.getText().toString().equals("") && edt_Int.getText().toString().equals("")){
@@ -138,6 +163,7 @@ btn_reset.setOnClickListener(v -> {
 
         return  view;
     }//oncreateView
+
 
 
 
@@ -224,56 +250,62 @@ btn_reset.setOnClickListener(v -> {
 
 
     private void sendData(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    if (success.equals("1")) {
 
 
 
-                    } else {
-                        Toast.makeText(getContext(),"Registration Failed", Toast.LENGTH_SHORT).show();
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String success = jsonObject.getString("success");
+                        if (success.equals("1")) {
+
+                            Toast.makeText(getContext(), "loan Tracsaction Successful", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Toast.makeText(getContext(), "loan Tracsaction Failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show();
+                }
+            }) {
+
+                public Map<String, String> getParams() {
+
+                    Map<String, String> params = new HashMap<String, String>();
+
+                    for ( int i=0; i <= lists.size() - 1; i++) {
+                        params.put("cred_code[]", cred_codes);
+                        params.put("deb_code[]", usr_code);
+                        params.put("payment_date[]", "not paid");
+                        params.put("typeofterm[]", ofChoice);
+                        params.put("paymentMethod[]", ofChoice);
+                        params.put("deb_lengthterm[]", edt_terms.getText().toString());
+                        params.put("deb_numberofperiod[]", lists.get(i).getRow1());
+                        params.put("deb_payment[]", lists.get(i).getRow2());
+                        params.put("deb_prinpaid[]", lists.get(i).getRow3());
+                        params.put("deb_intpaid[]", lists.get(i).getRow4());
+                        params.put("deb_balance[]", lists.get(i).getRow5());
+                        params.put("deb_paymentstat[]", "not paid");
                     }
 
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                    return params;
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show();
-            }
-        }){
-            public Map<String , String> getParams(){
-                Map<String, String> params = new HashMap<String, String>();
-    for(int i = 0 ; i <=lists.size() -1;i++){
 
+            };
 
-                params.put("cred_code",cred_code );
-                params.put("deb_code",usr_code);
-                params.put("payment_date", "not paid");
-                params.put("typeofterm",ofChoice);
-                params.put("paymentMethod",ofChoice);
-                params.put("deb_lengthterm",edt_terms.getText().toString());
-                params.put("deb_numberofperiod",lists.get(i).getRow1());
-                params.put("deb_payment",lists.get(i).getRow2());
-                params.put("deb_prinpaid", lists.get(i).getRow3());
-                params.put("deb_intpaid",lists.get(i).getRow4());
-                params.put("deb_balance",lists.get(i).getRow5());
-                params.put("deb_paymentstat","not paid");
+            //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+            requestQueue.add(stringRequest);
 
-        }
-                return  params;
-            }
-
-        };
-
-        //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
-        requestQueue.add(stringRequest);
     }
+
 
 }

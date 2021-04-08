@@ -1,5 +1,7 @@
 package com.example.lmtapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,7 +23,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class dashboard extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener,
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice,dialog_custom.tofragCREDproces {
 
     DrawerLayout drawerLayout;
@@ -36,13 +43,13 @@ public class dashboard extends AppCompatActivity  implements NavigationView.OnNa
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Bundle bundle =getIntent().getExtras();
         assert bundle != null;
         usr_id = bundle.getString("usr_id");
@@ -56,6 +63,18 @@ public class dashboard extends AppCompatActivity  implements NavigationView.OnNa
         usr_password = bundle.getString("usr_password");
 
 
+        try {
+            FileOutputStream fOut = openFileOutput("file.txt",Context.MODE_PRIVATE);
+
+
+            fOut.write(usr_code.getBytes());
+            fOut.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         drawerLayout = findViewById(R.id.drawer);
@@ -81,6 +100,7 @@ public class dashboard extends AppCompatActivity  implements NavigationView.OnNa
         TextView draw_txt2 = (TextView)hView.findViewById(R.id.drawer_txt2);
         draw_txt.setText(usr_fullname);
         draw_txt2.setText(usr_cpnumber);
+
 
         data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
         dataConstructor.setUsr_id(usr_id);
