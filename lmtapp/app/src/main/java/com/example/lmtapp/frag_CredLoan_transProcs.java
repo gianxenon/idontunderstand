@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -58,7 +59,7 @@ public class frag_CredLoan_transProcs extends Fragment      {
         int terms;
         double interest_rate;
         double principal_amount;
-
+    int x =0;
     public frag_CredLoan_transProcs(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd) {
         this.usr_id = usr_id;
         this.usr_code = usr_code;
@@ -252,7 +253,8 @@ btn_reset.setOnClickListener(v -> {
     private void sendData(){
 
 
-
+        for ( int i=0; i <= lists.size() - 1; i++) {
+            x =i;
             StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -282,28 +284,28 @@ btn_reset.setOnClickListener(v -> {
 //dapat masend yung mga items sa loob nung list row
                     Map<String, String> params = new HashMap<String, String>();
 
-                    for ( int i=0; i <= lists.size() - 1; i++) {
+
                         params.put("cred_code", cred_codes);
                         params.put("deb_code", usr_code);
                         params.put("payment_date", "not paid");
                         params.put("typeofterm", ofChoice);
                         params.put("paymentMethod", ofChoice);
                         params.put("deb_lengthterm", edt_terms.getText().toString());
-                        params.put("deb_numberofperiod", lists.get(i).getRow1());
-                        params.put("deb_payment", lists.get(i).getRow2());
-                        params.put("deb_prinpaid", lists.get(i).getRow3());
-                        params.put("deb_intpaid", lists.get(i).getRow4());
-                        params.put("deb_balance", lists.get(i).getRow5());
+                        params.put("deb_numberofperiod", lists.get(x).getRow1());
+                        params.put("deb_payment", lists.get(x).getRow2());
+                        params.put("deb_prinpaid", lists.get(x).getRow3());
+                        params.put("deb_intpaid", lists.get(x).getRow4());
+                        params.put("deb_balance", lists.get(x).getRow5());
                         params.put("deb_paymentstat", "not paid");
-                    }
+
                     return params;
                 }
 //end of comment
             };
 
-            //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+          // stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
             requestQueue.add(stringRequest);
-
+        }
     }
 
 
