@@ -102,14 +102,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         draw_txt2.setText(usr_cpnumber);
 
 
-        data_constructor  dataConstructor =  new data_constructor (usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd);
-        dataConstructor.setUsr_id(usr_id);
-        dataConstructor.setUsr_code(usr_code);
-        dataConstructor.setUsr_fullname(usr_fullname);
-        dataConstructor.setUsr_cpnumber(usr_cpnumber);
-        dataConstructor.setUsr_address(usr_address);
-        dataConstructor.setUsr_birthdate(usr_birthdate);
-        dataConstructor.setUsr_emailadd(usr_emailadd);
+
     }//On Create
 
 //drawer items

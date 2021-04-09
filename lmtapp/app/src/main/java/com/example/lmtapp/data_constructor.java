@@ -2,77 +2,63 @@ package com.example.lmtapp;
 
 public class data_constructor {
 
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd;
+    String cred_codes,usr_code, payment_date,typeofterms,deb_lengthterm,deb_numberofperiod,deb_payment,deb_prinpaid,deb_intpaid,deb_balance,deb_paymentstat;
 
-    public data_constructor(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd) {
-        this.usr_id = usr_id;
+    public data_constructor(String cred_codes, String usr_code, String payment_date, String typeofterms, String deb_lengthterm, String deb_numberofperiod, String deb_payment, String deb_prinpaid, String deb_intpaid, String deb_balance, String deb_paymentstat) {
+        this.cred_codes = cred_codes;
         this.usr_code = usr_code;
-        this.usr_fullname = usr_fullname;
-        this.usr_cpnumber = usr_cpnumber;
-        this.usr_address = usr_address;
-        this.usr_birthdate = usr_birthdate;
-        this.usr_emailadd = usr_emailadd;
-
+        this.payment_date = payment_date;
+        this.typeofterms = typeofterms;
+        this.deb_lengthterm = deb_lengthterm;
+        this.deb_numberofperiod = deb_numberofperiod;
+        this.deb_payment = deb_payment;
+        this.deb_prinpaid = deb_prinpaid;
+        this.deb_intpaid = deb_intpaid;
+        this.deb_balance = deb_balance;
+        this.deb_paymentstat = deb_paymentstat;
     }
 
-
-    public String getUsr_id() {
-        return usr_id;
+    public String getCred_codes() {
+        return cred_codes;
     }
 
     public String getUsr_code() {
         return usr_code;
     }
 
-    public String getUsr_fullname() {
-        return usr_fullname;
+    public String getPayment_date() {
+        return payment_date;
     }
 
-    public String getUsr_cpnumber() {
-        return usr_cpnumber;
+    public String getTypeofterms() {
+        return typeofterms;
     }
 
-    public String getUsr_address() {
-        return usr_address;
+    public String getDeb_lengthterm() {
+        return deb_lengthterm;
     }
 
-    public String getUsr_birthdate() {
-        return usr_birthdate;
+    public String getDeb_numberofperiod() {
+        return deb_numberofperiod;
     }
 
-    public String getUsr_emailadd() {
-        return usr_emailadd;
+    public String getDeb_payment() {
+        return deb_payment;
     }
 
-
-
-    public void setUsr_id(String usr_id) {
-        this.usr_id = usr_id;
+    public String getDeb_prinpaid() {
+        return deb_prinpaid;
     }
 
-    public void setUsr_code(String usr_code) {
-        this.usr_code = usr_code;
+    public String getDeb_intpaid() {
+        return deb_intpaid;
     }
 
-    public void setUsr_fullname(String usr_fullname) {
-        this.usr_fullname = usr_fullname;
+    public String getDeb_balance() {
+        return deb_balance;
     }
 
-    public void setUsr_cpnumber(String usr_cpnumber) {
-        this.usr_cpnumber = usr_cpnumber;
+    public String getDeb_paymentstat() {
+        return deb_paymentstat;
     }
-
-    public void setUsr_address(String usr_address) {
-        this.usr_address = usr_address;
-    }
-
-    public void setUsr_birthdate(String usr_birthdate) {
-        this.usr_birthdate = usr_birthdate;
-    }
-
-    public void setUsr_emailadd(String usr_emailadd) {
-        this.usr_emailadd = usr_emailadd;
-    }
-
-
 }

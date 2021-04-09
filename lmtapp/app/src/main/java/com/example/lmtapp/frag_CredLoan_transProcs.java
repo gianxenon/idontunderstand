@@ -1,11 +1,6 @@
 package com.example.lmtapp;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
@@ -54,9 +48,11 @@ public class frag_CredLoan_transProcs extends Fragment      {
     EditText deb_fn, deb_cpnum,deb_emls,deb_adrs ;
     String ofChoice = "";
     String temp = "";
-    String cred_codes,cred_ids,cred_fns;
+    String cred_codes;
     //computation Variables
-        int terms;
+    ArrayList<data_constructor> listss = new ArrayList<>();
+
+    int terms;
         double interest_rate;
         double principal_amount;
     int x =0;
@@ -149,6 +145,10 @@ public class frag_CredLoan_transProcs extends Fragment      {
         deb_cpnum.setText(usr_cpnumber);
 
 btn_process.setOnClickListener(v -> {
+    for (int i = 0; i <= lists.size() - 1; i++) {
+        listss.add(new data_constructor(cred_codes,usr_code,"not paid",ofChoice,ofChoice,edt_terms.getText().toString(),
+                lists.get(i).getRow1(),lists.get(i).getRow2(), lists.get(i).getRow3(),lists.get(i).getRow4(),lists.get(i).getRow5()));
+    }
     sendData();
 });
 
@@ -244,6 +244,7 @@ btn_reset.setOnClickListener(v -> {
                 lists.add(listPojosa);
 
             }
+
             adapaterLists.notifyDataSetChanged();
         }
 
@@ -252,40 +253,45 @@ btn_reset.setOnClickListener(v -> {
 
     private void sendData(){
 
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, response -> {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("1")) {
 
-        for ( int i=0; i <= lists.size() - 1; i++) {
-            x =i;
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        String success = jsonObject.getString("success");
-                        if (success.equals("1")) {
+                        Toast.makeText(getContext(), "loan Tracsaction Successful", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(getContext(), "loan Tracsaction Successful", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Toast.makeText(getContext(), "loan Tracsaction Failed", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                    } else if(success.equals("3")){
+                        Toast.makeText(getContext(), "Empty post", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getContext(), "loan Tracsaction Failed", Toast.LENGTH_SHORT).show();
                     }
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Error Occured sad " + e, Toast.LENGTH_SHORT).show();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show();
-                }
-            }) {
+            }, error -> Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show()) {
 
                 public Map<String, String> getParams() {
 //dapat masend yung mga items sa loob nung list row
-                    Map<String, String> params = new HashMap<String, String>();
+                    Map<String, String> params = new HashMap<>();
 
+                    try {
+                        JSONObject jsonObj = new JSONObject();
+                        JSONArray jsArray2 = new JSONArray(listss);
+                //do thiss
+                            jsonObj.put("cred_code",jsArray2);
 
-                        params.put("cred_code", cred_codes);
+                        params.put("cred_code", jsonObj.toString());
+                        //Toast.makeText(getContext(),jsArray2.toString(),Toast.LENGTH_LONG).show();
+                        Log.d("cred_code",jsonObj.toString());
+                        Log.d("cred_codes",jsArray2.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    return params;
+                      /*
                         params.put("deb_code", usr_code);
                         params.put("payment_date", "not paid");
                         params.put("typeofterm", ofChoice);
@@ -297,8 +303,7 @@ btn_reset.setOnClickListener(v -> {
                         params.put("deb_intpaid", lists.get(x).getRow4());
                         params.put("deb_balance", lists.get(x).getRow5());
                         params.put("deb_paymentstat", "not paid");
-
-                    return params;
+                        */
                 }
 //end of comment
             };
@@ -309,4 +314,3 @@ btn_reset.setOnClickListener(v -> {
     }
 
 
-}
