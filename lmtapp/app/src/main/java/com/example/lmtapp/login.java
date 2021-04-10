@@ -113,7 +113,7 @@ public class login extends AppCompatActivity {
                            // Toast.makeText(login.this, "fetch success" + "name = " + usr_fullname, Toast.LENGTH_SHORT).show();
                         }
 
-                             Toast.makeText(login.this, "sending Successfully", Toast.LENGTH_SHORT).show();
+                             Toast.makeText(login.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(login.this, dashboard.class);
                             intent.putExtra("usr_id",usr_id);
                             intent.putExtra("usr_code",usr_code);
@@ -126,17 +126,17 @@ public class login extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                     } else {
-                        Toast.makeText(login.this, "sending Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(login.this, "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(login.this, "000WEBHOST Error Occured" + e, Toast.LENGTH_SHORT).show();
                 }
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(login.this, error.getMessage().toString()+"senddata error", Toast.LENGTH_LONG).show();
+                Toast.makeText(login.this,  "000WEBHOST Error:"+ error.getMessage().toString(), Toast.LENGTH_LONG).show();
 
             }
         }){
