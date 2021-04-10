@@ -60,7 +60,9 @@ public class login extends AppCompatActivity {
         if(usr.isEmpty() || pas.isEmpty())
         {
             Toast.makeText(login.this,"Field Cannot be Empty",Toast.LENGTH_SHORT).show();
+            btn_login.setClickable(true);
         }else {
+            btn_login.setClickable(false);
            sendUrl();
         }
         });

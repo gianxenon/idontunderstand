@@ -29,7 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice,dialog_custom.tofragCREDproces {
+        dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;

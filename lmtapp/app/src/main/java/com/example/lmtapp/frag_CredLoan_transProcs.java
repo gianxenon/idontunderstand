@@ -1,5 +1,6 @@
 package com.example.lmtapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 
 public class frag_CredLoan_transProcs extends Fragment      {
+
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
     private RequestQueue requestQueue;
     ListView list_Views;
@@ -168,7 +171,6 @@ btn_reset.setOnClickListener(v -> {
 
 
 
-
     private void listShow(){
         terms = Integer.parseInt(edt_terms.getText().toString());
         interest_rate = Double.parseDouble(edt_Int.getText().toString());
@@ -195,6 +197,7 @@ btn_reset.setOnClickListener(v -> {
                 listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
                 lists.add(listPojosa);
             }
+
             adapaterLists.notifyDataSetChanged();
         }else if(ofChoice.equals("Months (Monthly Payment)")){
 
@@ -219,6 +222,7 @@ btn_reset.setOnClickListener(v -> {
                 listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
                 lists.add(listPojosa);
             }
+
             adapaterLists.notifyDataSetChanged();
         }else{
             int d=360;
@@ -243,13 +247,11 @@ btn_reset.setOnClickListener(v -> {
                 bal = bal - payFormula;
                 listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)));
                 lists.add(listPojosa);
-
             }
 
             adapaterLists.notifyDataSetChanged();
         }
-
-    }
+    }//end of listshow
 
 
     private void sendData(){
@@ -269,40 +271,24 @@ btn_reset.setOnClickListener(v -> {
                     }
 
                 } catch (Exception e) {
+                    Log.d("respo","Length :- "+response.length());
                     Toast.makeText(getContext(), "Error Occured sad " + e, Toast.LENGTH_SHORT).show();
                 }
             }, error -> Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show()) {
-
                 public Map<String, String> getParams() {
-//dapat masend yung mga items sa loob nung list row
                     Map<String, String> params = new HashMap<>();
-
-                    Gson gson = new Gson();
-                    String jsonString = gson.toJson(listss);
-
-                    params.put("cred_code", jsonString);
-                    Log.d("cred_code", jsonString);
+                    params.put("usr_code", cred_codes);
+                    params.put("deb_code", deb_cpnum.getText().toString());
+                    params.put("typeofterm", ofChoice);
+                    params.put("term_len", edt_terms.getText().toString());
+                    params.put("interest", edt_Int.getText().toString());
+                    params.put("prin_amount", edt_prinAmount.getText().toString());
                     return params;
-                      /*
-                        params.put("deb_code", usr_code);
-                        params.put("payment_date", "not paid");
-                        params.put("typeofterm", ofChoice);
-                        params.put("paymentMethod", ofChoice);
-                        params.put("deb_lengthterm", edt_terms.getText().toString());
-                        params.put("deb_numberofperiod", lists.get(x).getRow1());
-                        params.put("deb_payment", lists.get(x).getRow2());
-                        params.put("deb_prinpaid", lists.get(x).getRow3());
-                        params.put("deb_intpaid", lists.get(x).getRow4());
-                        params.put("deb_balance", lists.get(x).getRow5());
-                        params.put("deb_paymentstat", "not paid");
-                        */
                 }
-//end of comment
             };
-
-          // stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
             requestQueue.add(stringRequest);
         }
+
     }
 
 

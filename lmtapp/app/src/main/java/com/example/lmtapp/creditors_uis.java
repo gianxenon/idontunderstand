@@ -120,8 +120,8 @@ public class creditors_uis extends Fragment {
                             listPojosa = new ListPojos(usr_fullname,usr_cpnumber,R.drawable.profilepic);
                             list.add(listPojosa);
                             adapaterList.notifyDataSetChanged();
-                            Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
-                        }
+                            }
+                        Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
                     }

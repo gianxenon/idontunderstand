@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class dialog_custom  extends DialogFragment  {
-    private dialog_custom.tofragCREDproces listener;
+  //  private dialog_custom.tofragCREDproces listener;
     private EditText editText;
     private Button oks,cls;
   // private static final String TAG = "dialog_custom";
@@ -65,6 +65,7 @@ public class dialog_custom  extends DialogFragment  {
 
         return rootview;
     }
+    /*
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -78,6 +79,7 @@ public class dialog_custom  extends DialogFragment  {
     public interface  tofragCREDproces{
         void ondialogBtnSelected();
     }
+   */
     private void sendData () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, response -> {
             try {
@@ -103,7 +105,7 @@ public class dialog_custom  extends DialogFragment  {
                     Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Code exist", Toast.LENGTH_SHORT).show();
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd));
+                    fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).addToBackStack(TAG);
                     fragmentTransaction.commit();
                     //listener.ondialogBtnSelected();
                   getDialog().dismiss();
