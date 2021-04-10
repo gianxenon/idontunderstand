@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +144,7 @@ public class frag_CredLoan_transProcs extends Fragment      {
         deb_emls.setText(usr_emailadd);
         deb_adrs.setText(usr_address);
         deb_cpnum.setText(usr_cpnumber);
-
+usr_code = usr_cpnumber;
 btn_process.setOnClickListener(v -> {
     for (int i = 0; i <= lists.size() - 1; i++) {
         listss.add(new data_constructor(cred_codes,usr_code,"not paid",ofChoice,ofChoice,edt_terms.getText().toString(),
@@ -276,20 +277,11 @@ btn_reset.setOnClickListener(v -> {
 //dapat masend yung mga items sa loob nung list row
                     Map<String, String> params = new HashMap<>();
 
-                    try {
-                        JSONObject jsonObj = new JSONObject();
-                        JSONArray jsArray2 = new JSONArray(listss);
-                //do thiss
-                            jsonObj.put("cred_code",jsArray2);
+                    Gson gson = new Gson();
+                    String jsonString = gson.toJson(listss);
 
-                        params.put("cred_code", jsonObj.toString());
-                        //Toast.makeText(getContext(),jsArray2.toString(),Toast.LENGTH_LONG).show();
-                        Log.d("cred_code",jsonObj.toString());
-                        Log.d("cred_codes",jsArray2.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    params.put("cred_code", jsonString);
+                    Log.d("cred_code", jsonString);
                     return params;
                       /*
                         params.put("deb_code", usr_code);
