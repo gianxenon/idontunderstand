@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,12 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class creditors_uis extends Fragment {
    //private static final String TAG = "creditors_uis";
@@ -37,20 +43,26 @@ public class creditors_uis extends Fragment {
     ListView listView;
     public static ArrayList<ListPojos> list= new ArrayList<ListPojos>();
     MyAdapter adapaterList;
-    FragmentManager fragmentManager;
+    static FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ImageView imageView;
 
+    String temp1 = "";
+    String cred_codes;
     //database
-    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/fecth.php";
+    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtable.php";
     private RequestQueue requestQueue;
     private static final String TAG= creditors_uis.class.getSimpleName();
     int success;
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
+    int pos =0;
+    String name ="";
+    String deb_num="";
     ListPojos listPojosa;
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
+    String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,11 +73,36 @@ public class creditors_uis extends Fragment {
 
 
 
+        try {
+            FileInputStream fin = getActivity().openFileInput("file.txt");
+            int c;
 
+            while( (c = fin.read()) != -1){
+                temp1 = temp1 + (char) c;
+            }
+
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        cred_codes = temp1;
 
         adapaterList = new MyAdapter(getActivity(), list);
         listView.setAdapter(adapaterList);
-
+        adapaterList.setOnAddListener(new OnAddListener() {
+            @Override
+            public void onAdd(int position, String name, String number) {
+                /*
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(name,number)).addToBackStack(TAG);
+                fragmentTransaction.commit();
+                */
+            }
+        });
      //   if(list.size() == 0){
           //  listeners.onchoices();
 
@@ -81,7 +118,12 @@ public class creditors_uis extends Fragment {
 
         return view;
     }
+    void geter(int position, String name,String number){
 
+    }
+    public interface OnAddListener {
+        public void onAdd(int position, String name,String number);
+    }
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof creditors_uis.onchoice){
@@ -110,14 +152,17 @@ public class creditors_uis extends Fragment {
                     if (success.equals("1")) {
                         for (int i =0;  i < sad.length(); i++) {
                             JSONObject sads = sad.getJSONObject(i);
-                            usr_id = sads.getString("usr_id");
+                            deb_fn = sads.getString("deb_fn");
+                            deb_cpnum = sads.getString("deb_cpnum");
+                            deb_emls = sads.getString("deb_emls");
+                            deb_adrs = sads.getString("deb_adrs");
                             usr_code = sads.getString("usr_code");
-                            usr_fullname = sads.getString("usr_fullname");
-                            usr_cpnumber = sads.getString("usr_cpnumber");
-                            usr_address = sads.getString("usr_address");
-                            usr_birthdate = sads.getString("usr_birthdate");
-                            usr_emailadd = sads.getString("usr_emailadd");
-                            listPojosa = new ListPojos(usr_fullname,usr_cpnumber,R.drawable.profilepic);
+                            deb_code = sads.getString("deb_code");
+                            typeofterm = sads.getString("typeofterm");
+                            term_len = sads.getString("term_len");
+                            interest = sads.getString("interest");
+                            prin_amount = sads.getString("prin_amount");
+                            listPojosa = new ListPojos(deb_fn,deb_cpnum,R.drawable.profilepic);
                             list.add(listPojosa);
                             adapaterList.notifyDataSetChanged();
                             }
@@ -130,7 +175,14 @@ public class creditors_uis extends Fragment {
                 }
             }, (VolleyError error) -> {
                 Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-            });
+            }){
+                public Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("usr_code", cred_codes);
+                    Log.d("codes",cred_codes);
+                    return params;
+                }
+            };
             requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
          //   stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
             requestQueue.add(stringRequest);

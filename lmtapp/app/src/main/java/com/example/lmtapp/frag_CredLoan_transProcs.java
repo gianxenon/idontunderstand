@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -94,10 +95,19 @@ public class frag_CredLoan_transProcs extends Fragment      {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         cred_codes = temp;
+        try {
+            FileOutputStream fOut = getActivity().openFileOutput("debCode.txt",Context.MODE_PRIVATE);
 
+
+            fOut.write(usr_code.getBytes());
+            fOut.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     //debtor_info
@@ -277,6 +287,10 @@ btn_reset.setOnClickListener(v -> {
             }, error -> Toast.makeText(getContext(), "error on responce Volley Error", Toast.LENGTH_LONG).show()) {
                 public Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
+                    params.put("deb_fn", deb_fn.getText().toString());
+                    params.put("deb_cpnum", deb_cpnum.getText().toString());
+                    params.put("deb_emls", deb_emls.getText().toString());
+                    params.put("deb_adrs", deb_adrs.getText().toString());
                     params.put("usr_code", cred_codes);
                     params.put("deb_code", deb_cpnum.getText().toString());
                     params.put("typeofterm", ofChoice);

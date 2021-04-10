@@ -11,18 +11,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends BaseAdapter {
-
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
     public Context context;
     public ArrayList<ListPojos> listpojos;
     public MyAdapter(Context context, ArrayList<ListPojos> listpojos){
         this.context = context;
         this.listpojos = listpojos;
     }
-
+    private creditors_uis.OnAddListener onAddListener;
+    public void setOnAddListener(creditors_uis.OnAddListener listener) {
+        this.onAddListener = listener;
+    }
     @Override
     public int getCount() {
         return listpojos.size();
@@ -54,7 +60,7 @@ public class MyAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"Position"+ position,Toast.LENGTH_SHORT).show();
-
+                onAddListener.onAdd(position, title.getText().toString(),description.getText().toString());
             }
         });
 
