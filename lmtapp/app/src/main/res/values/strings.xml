@@ -78,5 +78,22 @@
     <string name="btn_reset">Reset</string>
     <string name="btn_saveProcess">Process</string>
     <string name="drawer_txt2">number</string>
+    <string name="image">image</string>
+    <string name="textView8">Name</string>
+    <string name="textView9">Address</string>
+    <string name="textView10">Contact# :</string>
+    <string name="textView11">addressholder</string>
+    <string name="textView12">contactholder</string>
+    <string name="textView13">"PRINCIPAL AMOUNT : "</string>
+    <string name="textView14" />
+    <string name="textview15">ANNUAL INTEREST RATE :</string>
+    <string name="textview">TERM / PAYMENT METHOD :</string>
+    <string name="textview19">BALANCE :</string>
+    <string name="textview21">No. of Periods</string>
+    <string name="textView22">Payment</string>
+    <string name="textview23">Principal Amount</string>
+    <string name="textview24">Interest</string>
+    <string name="textView25">Balance</string>
+    <string name="textView26">Status</string>
 
 </resources>

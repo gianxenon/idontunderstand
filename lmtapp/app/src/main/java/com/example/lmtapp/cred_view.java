@@ -2,63 +2,109 @@ package com.example.lmtapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link cred_view#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class cred_view extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtable.php";
+    private RequestQueue requestQueue;
+    String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ListView list_Views;
+    public static ArrayList<cred_listDatageter> lists= new ArrayList<>();
+    cred_Adapter adapaterLists;
+    cred_listDatageter listPojosa;
+    String name ,number;
 
-    public cred_view() {
-        // Required empty public constructor
+    public cred_view(String name, String number) {
+        this.name = name;
+        this.number = number;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment cred_view.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static cred_view newInstance(String param1, String param2) {
-        cred_view fragment = new cred_view();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cred_view,container,false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cred_view, container, false);
+        list_Views = view.findViewById(R.id.cred_listView);
+        adapaterLists = new cred_Adapter(getContext(),lists);
+        list_Views.setAdapter(adapaterLists);
+        datafetch();
+
+
+         number =  number.substring(0,number.lastIndexOf(number.length()));
+
+        return  view;
+    }
+    private void datafetch() {
+
+        StringRequest stringRequest  = new StringRequest(Request.Method.POST, insertionUrl, response -> {
+
+            try {
+
+                JSONObject jobj = new JSONObject(response);
+                String success = jobj.getString("success");
+                JSONArray sad = jobj.getJSONArray("user_info");
+                if (success.equals("1")) {
+                    for (int i =0;  i < sad.length(); i++) {
+                        JSONObject sads = sad.getJSONObject(i);
+                        deb_fn = sads.getString("deb_fn");
+                        deb_cpnum = sads.getString("deb_cpnum");
+                        deb_emls = sads.getString("deb_emls");
+                        deb_adrs = sads.getString("deb_adrs");
+                        usr_code = sads.getString("usr_code");
+                        deb_code = sads.getString("deb_code");
+                        typeofterm = sads.getString("typeofterm");
+                        term_len = sads.getString("term_len");
+                        interest = sads.getString("interest");
+                        prin_amount = sads.getString("prin_amount");
+
+                    }
+                    Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(getContext().getApplicationContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
+            }
+        }, (VolleyError error) -> {
+            Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+        }){
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("usr_code", number);
+                Log.d("codes",number);
+                return params;
+            }
+        };
+        requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
+        //   stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+        requestQueue.add(stringRequest);
+    }
+   void  listshow(){
+
     }
 }

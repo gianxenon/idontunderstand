@@ -77,7 +77,6 @@ public class frag_CredLoan_transProcs extends Fragment      {
       View view =   inflater.inflate(R.layout.fragment_frag__cred_loan_trans_procs, container, false);
 
        //
-
         list_Views = view.findViewById(R.id.list_tableView);
 
         requestQueue = Volley.newRequestQueue(getContext());

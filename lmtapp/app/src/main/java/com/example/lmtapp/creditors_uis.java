@@ -71,8 +71,6 @@ public class creditors_uis extends Fragment {
         imageView = view.findViewById(R.id.img_fltbtn);
         listView = view.findViewById(R.id.list_view);
 
-
-
         try {
             FileInputStream fin = getActivity().openFileInput("file.txt");
             int c;
@@ -95,12 +93,12 @@ public class creditors_uis extends Fragment {
         adapaterList.setOnAddListener(new OnAddListener() {
             @Override
             public void onAdd(int position, String name, String number) {
-                /*
+
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(name,number)).addToBackStack(TAG);
+                fragmentTransaction.replace(R.id.container_fragment,new cred_view(name,number)).addToBackStack(TAG);
                 fragmentTransaction.commit();
-                */
+
             }
         });
      //   if(list.size() == 0){
@@ -118,12 +116,11 @@ public class creditors_uis extends Fragment {
 
         return view;
     }
-    void geter(int position, String name,String number){
 
-    }
     public interface OnAddListener {
         public void onAdd(int position, String name,String number);
     }
+
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(context instanceof creditors_uis.onchoice){
