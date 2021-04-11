@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +31,7 @@ import java.util.Map;
 
 public class cred_view extends Fragment {
 
-    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtable.php";
+    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtableview.php";
     private RequestQueue requestQueue;
     String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;
 
@@ -48,15 +50,29 @@ public class cred_view extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cred_view,container,false);
+        TextView  txt_fn = view.findViewById(R.id.textView8);
+        TextView    txt_adrs =view.findViewById(R.id.textView11);
+        TextView    txt_num = view.findViewById(R.id.textView12);
+        //body header
+        txt_fn.setText(deb_fn);
+        txt_adrs.setText(deb_adrs);
+        txt_num.setText(deb_cpnum);
+        //
+        TextView txt_prinamount = view.findViewById(R.id.edt_prinamount);
+        TextView    txt_intRate = view.findViewById(R.id.edt_intrate);
+        TextView    txt_paymethod   = view.findViewById(R.id.edt_intrate);
+
+
 
         list_Views = view.findViewById(R.id.cred_listView);
         adapaterLists = new cred_Adapter(getContext(),lists);
         list_Views.setAdapter(adapaterLists);
+
+        number = number + " ";
+        number =  number.substring(0,number.lastIndexOf(" "));
+
+
         datafetch();
-
-
-         number =  number.substring(0,number.lastIndexOf(number.length()));
-
         return  view;
     }
     private void datafetch() {
