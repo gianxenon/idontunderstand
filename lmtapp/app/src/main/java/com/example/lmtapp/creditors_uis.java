@@ -58,8 +58,7 @@ public class creditors_uis extends Fragment {
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
     int pos =0;
-    String name ="";
-    String deb_num="";
+
     ListPojos listPojosa;
     String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;
 
@@ -90,6 +89,7 @@ public class creditors_uis extends Fragment {
 
         adapaterList = new MyAdapter(getActivity(), list);
         listView.setAdapter(adapaterList);
+
         adapaterList.setOnAddListener(new OnAddListener() {
             @Override
             public void onAdd(int position, String name, String number) {
@@ -165,7 +165,7 @@ public class creditors_uis extends Fragment {
                             }
                         Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext().getApplicationContext(), "You don't have Debtors yet ", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Toast.makeText(getContext().getApplicationContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();

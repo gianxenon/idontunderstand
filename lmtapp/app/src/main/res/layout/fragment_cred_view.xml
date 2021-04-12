@@ -24,7 +24,7 @@
            android:src="@drawable/profilepic" />
 
        <TextView
-           android:id="@+id/textView8"
+           android:id="@+id/edt_fn"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_toEndOf="@id/imageView6"
@@ -46,7 +46,7 @@
            android:layout_centerVertical="true"
            android:layout_marginLeft="20dp"
            android:layout_marginStart="20dp"
-           android:layout_below="@id/textView8"
+           android:layout_below="@id/edt_fn"
            android:text="@string/textView9" />
 
        <TextView
@@ -64,7 +64,7 @@
            android:id="@+id/textView11"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_below="@id/textView8"
+           android:layout_below="@id/edt_fn"
            android:layout_toEndOf="@id/textView9"
            android:layout_toRightOf="@id/textView9"
            android:layout_marginLeft="10dp"
@@ -197,84 +197,86 @@
             android:gravity="center"
             android:layout_marginTop="5dp"
             tools:targetApi="lollipop" />
-        <LinearLayout
-            android:id="@+id/titlelay"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:layout_below="@id/edt_bal">
 
-            <TextView
-                android:id="@+id/textView21"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginStart="4dp"
-                android:layout_gravity="center_vertical"
-                android:text="@string/textview21"
-                />
-
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textAlignment="center"
-                android:text="@string/textView22"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal" />
-
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:text="@string/textview23" />
-
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:text="@string/textview24" />
-
-            <TextView
-                android:id="@+id/textView25"
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:text="@string/textView25" />
-
-            <TextView
-                android:id="@+id/textView26"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center_vertical"
-                android:text="@string/textView26" />
-        </LinearLayout>
         <HorizontalScrollView
             android:id="@+id/hviewscrl"
-            android:layout_below="@id/titlelay"
+            android:layout_below="@id/edt_bal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="390dp"
             android:layout_height="match_parent"
             >
+            <LinearLayout
+                android:id="@+id/titlelay"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+               >
 
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/textview21"
+                    />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:text="@string/textView22"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/textview23" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/textview24" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/textView25" />
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/textView26" />
+            </LinearLayout>
                 <ListView
                     android:id="@+id/cred_listView"
                     android:layout_width="390dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/titlelay">
 
                 </ListView>
 

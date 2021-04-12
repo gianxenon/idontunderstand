@@ -7,14 +7,14 @@ public class cred_listDatageter {
     private String row4;
     private String row5;
     private String row6;
-
+//
     public cred_listDatageter(String row1, String row2, String row3, String row4, String row5, String row6) {
         this.row1 = row1;
         this.row2 = row2;
         this.row3 = row3;
         this.row4 = row4;
         this.row5 = row5;
-        this.row6 = row6;
+       this.row6 = row6;
     }
 
     public String getRow1() {
@@ -38,6 +38,6 @@ public class cred_listDatageter {
     }
 
     public String getRow6() {
-        return row6;
-    }
+       return row6;
+   }
 }
