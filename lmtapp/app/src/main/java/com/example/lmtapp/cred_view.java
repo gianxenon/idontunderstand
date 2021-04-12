@@ -27,6 +27,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +51,8 @@ public class cred_view extends Fragment {
     String name ,number;
     String balances ="";
     String amountpay ="";
+    String temp = "";
+    String cred_codess;
     public cred_view(String name, String number) {
         this.name = name;
         this.number = number;
@@ -58,7 +63,21 @@ public class cred_view extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cred_view,container,false);
+        try {
+            FileInputStream fin = getActivity().openFileInput("debCode.txt");
+            int c;
 
+            while( (c = fin.read()) != -1){
+                temp = temp + (char) c;
+            }
+
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        cred_codess = temp;
         ListView  list_Views = view.findViewById(R.id.cred_listView);
         cred_Adapter adapaterLists = new cred_Adapter(getContext(),lists);
         list_Views.setAdapter(adapaterLists);
@@ -177,11 +196,16 @@ public class cred_view extends Fragment {
                     TextView    txt_bal = view.findViewById(R.id.edt_bal);
                     txt_adrs.setText(deb_adrs);
                     txt_num.setText(deb_cpnum);
+                    if(!cred_codess.equals(balances)){
+                        txt_bal.setText(String.valueOf(cred_codess));
+                    }else{
+                        txt_bal.setText(String.valueOf(balances));
+                    }
                     txt_fn.setText(deb_fn);
                     txt_prinamount.setText(String.valueOf(prin_amount));
                     txt_rate.setText(String.valueOf(interest));
                     txt_paymeth.setText(String.valueOf(term_len));
-                    txt_bal.setText(String.valueOf(balances));
+
 
                     Button btnpay = view.findViewById(R.id.btn_pay);
                     btnpay.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +216,7 @@ public class cred_view extends Fragment {
                             args.putString("usr_code", usr_code);
                             args.putString("deb_code", deb_code);
                             args.putString("amountpay", amountpay);
-                            args.putString("balance", String.valueOf(Math.abs(Double.parseDouble(balances)) - Math.abs(Double.parseDouble(amountpay))));
+                            args.putString("balance", String.valueOf(Math.abs(Double.parseDouble(balances))));
                             dialog_payment dialog_customs = new dialog_payment();
                             dialog_customs.setArguments(args);
                             dialog_customs.show(getFragmentManager(),"dialog_payment");
@@ -220,42 +244,5 @@ public class cred_view extends Fragment {
         requestQueue.add(stringRequest);
         return  view;
     }
-/*
-    private void sendData(){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    String success = jsonObject.getString("success");
-                    if (success.equals("1")) {
 
-
-                    } else {
-                        Toast.makeText(getContext(),"Registration Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                }catch (Exception e){
-                    Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "error on responce Volley Error " + error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }){
-            public  Map<String , String> getParams(){
-                Map<String, String> params = new HashMap<String, String>();
-
-
-                params.put("usr_password", pas.getText().toString());
-                return  params;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
-        requestQueue.add(stringRequest);
-    }
-*/
 }

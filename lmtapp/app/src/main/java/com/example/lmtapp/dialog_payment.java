@@ -1,7 +1,9 @@
 package com.example.lmtapp;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,7 +43,8 @@ public class dialog_payment extends DialogFragment {
     public RequestQueue requestQueue;
     String deb_tranid,cred_code,deb_code,amountpay,balance,date;
     String pb;
-    String prev_pay;
+    String prev_pay ="0";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,6 +62,8 @@ public class dialog_payment extends DialogFragment {
          amountpay = mArgs.getString("amountpay");
          balance = mArgs.getString("balance");
         payamount.setText(df2.format(Math.abs(Double.parseDouble(amountpay))));
+
+
         payDate.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
@@ -73,7 +82,18 @@ public class dialog_payment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 fetchData();
+                try {
+                    FileOutputStream fOut = getActivity().openFileOutput("debCode.txt", Context.MODE_PRIVATE);
+                  balance = String.valueOf(Math.abs(Math.abs(Double.parseDouble(balance)) - (Double.parseDouble(prev_pay) + Math.abs(Double.parseDouble(amountpay)))));
 
+                    fOut.write(balance.getBytes());
+                    fOut.close();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -87,20 +107,20 @@ public class dialog_payment extends DialogFragment {
                 String success = jobj.getString("success");
                // JSONArray sad = jobj.getJSONArray("user_info");
                 if (success.equals("1")) {
-                    Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Payment Complete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Payment Complete", Toast.LENGTH_SHORT).show();
                     getDialog().dismiss();
                 } else {
-                    Toast.makeText(getContext().getApplicationContext(), "Payment Denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Payment Denied", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
 
-                Toast.makeText(getContext().getApplicationContext(), "No Internet Connection-> " + e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No Internet Connection-> " + e, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext().getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -111,15 +131,17 @@ public class dialog_payment extends DialogFragment {
                 params.put("cred_code",cred_code);
                 params.put("amountpay", df2.format(Math.abs(Double.parseDouble(amountpay))));
                 params.put("paydate",date);
-                params.put("balance", df2.format(Math.abs(Double.parseDouble(balance))));
-                params.put("checker","1");
+                params.put("balance", df2.format(Math.abs(Math.abs(Double.parseDouble(balance)) - (Double.parseDouble(prev_pay) + Math.abs(Double.parseDouble(amountpay))))));
+                params.put("checker","0");
+
                 return params;
             }
         };
-        requestQueue= Volley.newRequestQueue(Objects.requireNonNull(getContext()).getApplicationContext());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
+        requestQueue= Volley.newRequestQueue(getContext());
+        //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
         requestQueue.add(stringRequest);
-    }
+    }//end senddata
+
     public void fetchData () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, response -> {
             try {
@@ -132,21 +154,26 @@ public class dialog_payment extends DialogFragment {
                         JSONObject sads = sad.getJSONObject(i);
                         pb = sads.getString("balances");
                         prev_pay = sads.getString("sum_score");
+                        Log.d("pb",pb);
+                        Log.d("prev",prev_pay);
                     }
+                    sendData();
                     Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Payment Complete", Toast.LENGTH_SHORT).show();
-                    getDialog().dismiss();
+                 //   getDialog().dismiss();
                 } else if(success.equals("3")) {
-                   sendData();
+                    sendData();
+                } else {
+                    Toast.makeText(getContext(), "Payment Denied", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
 
-                Toast.makeText(getContext().getApplicationContext(), "No Internet Connection-> " + e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "fecth No Internet Connection-> " + e, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext().getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
 
             }
         }) {
@@ -158,8 +185,8 @@ public class dialog_payment extends DialogFragment {
                 return params;
             }
         };
-        requestQueue= Volley.newRequestQueue(Objects.requireNonNull(getContext()).getApplicationContext());
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
+        requestQueue= Volley.newRequestQueue(getContext());
+        //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000, 1, 1.0f));
         requestQueue.add(stringRequest);
     }
 }
