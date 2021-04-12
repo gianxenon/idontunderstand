@@ -31,16 +31,12 @@ import java.util.Map;
 import java.util.Objects;
 
 public class dialog_custom  extends DialogFragment  {
-  //  private dialog_custom.tofragCREDproces listener;
+
     private EditText editText;
     private Button oks,cls;
-  // private static final String TAG = "dialog_custom";
-
-
     private final String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/custom_dialog.php";
     private RequestQueue requestQueue;
     private static final String TAG= dialog_custom.class.getSimpleName();
-    int success;
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
@@ -65,21 +61,7 @@ public class dialog_custom  extends DialogFragment  {
 
         return rootview;
     }
-    /*
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if(context instanceof dialog_custom.tofragCREDproces){
 
-            listener = (dialog_custom.tofragCREDproces) context;
-        }else {
-            throw  new ClassCastException(context.toString() + "must implement listener");
-        }
-    }
-    public interface  tofragCREDproces{
-        void ondialogBtnSelected();
-    }
-   */
     private void sendData () {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, response -> {
             try {
@@ -99,9 +81,7 @@ public class dialog_custom  extends DialogFragment  {
                         usr_emailadd = sads.getString("usr_emailadd");
 
                     }
-/*
 
-*/
                     Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Code exist", Toast.LENGTH_SHORT).show();
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();

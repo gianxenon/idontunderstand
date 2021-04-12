@@ -95,5 +95,10 @@
     <string name="textview24">Interest</string>
     <string name="textView25">Balance</string>
     <string name="textView26">Status</string>
+    <string name="btn_pay">Pay</string>
+    <string name="edt_dialogAmout">Payment Amout</string>
+    <string name="edt_dialogDate">"Date "</string>
+    <string name="img_dialogReciept">Dialog Image</string>
+    <string name="btn_dialogPay">Pay</string>
 
 </resources>

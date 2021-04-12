@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".cred_view">
 
-   <RelativeLayout
+    <RelativeLayout
        android:id="@+id/headrelay"
        android:layout_width="match_parent"
        android:layout_height="150dp"
@@ -275,10 +275,23 @@
                 <ListView
                     android:id="@+id/cred_listView"
                     android:layout_width="390dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="300dp"
                     android:layout_below="@id/titlelay">
 
                 </ListView>
+
+            <Button
+                android:id="@+id/btn_pay"
+                android:layout_width="120dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/cred_listView"
+                android:layout_centerInParent="true"
+                android:layout_margin="20dp"
+                android:textSize="20sp"
+                android:background="@drawable/btn_signupbg"
+                android:hapticFeedbackEnabled="true"
+                android:elevation="@dimen/cardview_default_elevation"
+                android:text="@string/btn_pay" />
 
         </RelativeLayout>
     </HorizontalScrollView>

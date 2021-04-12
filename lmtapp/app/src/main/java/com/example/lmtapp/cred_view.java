@@ -1,5 +1,6 @@
 package com.example.lmtapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,12 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -34,7 +38,7 @@ public class cred_view extends Fragment {
 
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtableview.php";
     private RequestQueue requestQueue;
-    public static String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm;
+    public static String deb_transid,deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm;
    int  term_len;
         double interest;
         double prin_amount;
@@ -43,6 +47,7 @@ public class cred_view extends Fragment {
     cred_listDatageter credListDatageter;
     String name ,number;
     String balances ="";
+    String amountpay ="";
     public cred_view(String name, String number) {
         this.name = name;
         this.number = number;
@@ -67,6 +72,7 @@ public class cred_view extends Fragment {
                 if (success.equals("1")) {
                     for (int i =0;  i < sad.length(); i++) {
                         JSONObject sads = sad.getJSONObject(i);
+                        deb_transid =sads.getString("deb_transid");
                         deb_fn = sads.getString("deb_fn");
                         deb_cpnum = sads.getString("deb_cpnum");
                         deb_emls = sads.getString("deb_emls");
@@ -77,7 +83,7 @@ public class cred_view extends Fragment {
                         term_len =  Integer.parseInt(sads.getString("term_len"));
                         interest = Double.parseDouble(sads.getString("interest"));
                         prin_amount = Double.parseDouble(sads.getString("prin_amount"));
-
+    Log.d("deb_transid",deb_transid);
                     }
 
                     int term_lens  = term_len;
@@ -94,6 +100,7 @@ public class cred_view extends Fragment {
                         double bal = payFormula * n;
                         double e;
                         double t;
+                        amountpay = String.valueOf(payFormula);
                         DecimalFormat df2 = new DecimalFormat("#.####");
                         balances = String.valueOf(df2.format(Math.abs(bal)));
                         for (int i = 1; i <= n; i++) {
@@ -119,6 +126,7 @@ public class cred_view extends Fragment {
                         double bal = payFormula * n;
                         double e;
                         double t;
+                        amountpay = String.valueOf(payFormula);
                         DecimalFormat df2 = new DecimalFormat("#.####");
                         balances = String.valueOf(df2.format(Math.abs(bal)));
                         for (int i = 1; i <= n; i++) {
@@ -146,6 +154,7 @@ public class cred_view extends Fragment {
                         double bal = payFormula * n;
                         double e;
                         double t;
+                        amountpay = String.valueOf(payFormula);
                         DecimalFormat df2 = new DecimalFormat("#.####");
                         balances = String.valueOf(df2.format(Math.abs(bal)));
                         for (int i = 1; i <= n; i++) {
@@ -174,6 +183,21 @@ public class cred_view extends Fragment {
                     txt_paymeth.setText(String.valueOf(term_len));
                     txt_bal.setText(String.valueOf(balances));
 
+                    Button btnpay = view.findViewById(R.id.btn_pay);
+                    btnpay.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle args = new Bundle();
+                            args.putString("deb_transid", deb_transid);
+                            args.putString("usr_code", usr_code);
+                            args.putString("deb_code", deb_code);
+                            args.putString("amountpay", amountpay);
+                            args.putString("balance", String.valueOf(Math.abs(Double.parseDouble(balances)) - Math.abs(Double.parseDouble(amountpay))));
+                            dialog_payment dialog_customs = new dialog_payment();
+                            dialog_customs.setArguments(args);
+                            dialog_customs.show(getFragmentManager(),"dialog_payment");
+                        }
+                    });
                     Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
@@ -189,30 +213,49 @@ public class cred_view extends Fragment {
                 number  += " ";
                 params.put("usr_code", number.substring(1,number.lastIndexOf(" ")));
                 Log.d("codes",params.toString());
-
                 return params;
             }
         };
         requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
-        //   stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
         requestQueue.add(stringRequest);
-
-
-
-
-
-
-        //datafetch();
-
         return  view;
     }
-    public  void datafetch() {
+/*
+    private void sendData(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, insertionUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if (success.equals("1")) {
 
+
+                    } else {
+                        Toast.makeText(getContext(),"Registration Failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(getContext(), "Error Occured" + e, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "error on responce Volley Error " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            public  Map<String , String> getParams(){
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("usr_password", pas.getText().toString());
+                return  params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+        requestQueue.add(stringRequest);
     }
-
-   public void  listshow(String typeofterm,int term_len,double interest,double prin_amount){
-
-
-   }//end of listshow
-
+*/
 }
