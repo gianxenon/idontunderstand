@@ -50,9 +50,10 @@ public class cred_view extends Fragment {
     cred_listDatageter credListDatageter;
     String name ,number;
     String balances ="";
-    String amountpay ="";
+    String amountpay ="0";
     String temp = "";
-    String cred_codess;
+    String cred_codess = "0";
+    DecimalFormat df2 = new DecimalFormat("#.####");
     public cred_view(String name, String number) {
         this.name = name;
         this.number = number;
@@ -64,7 +65,7 @@ public class cred_view extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cred_view,container,false);
         try {
-            FileInputStream fin = getActivity().openFileInput("debCode.txt");
+            FileInputStream fin = getActivity().openFileInput("debCodes.txt");
             int c;
 
             while( (c = fin.read()) != -1){
@@ -196,11 +197,7 @@ public class cred_view extends Fragment {
                     TextView    txt_bal = view.findViewById(R.id.edt_bal);
                     txt_adrs.setText(deb_adrs);
                     txt_num.setText(deb_cpnum);
-                    if(!cred_codess.equals(balances)){
-                        txt_bal.setText(String.valueOf(cred_codess));
-                    }else{
-                        txt_bal.setText(String.valueOf(balances));
-                    }
+                    txt_bal.setText(balances);
                     txt_fn.setText(deb_fn);
                     txt_prinamount.setText(String.valueOf(prin_amount));
                     txt_rate.setText(String.valueOf(interest));

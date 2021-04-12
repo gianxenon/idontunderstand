@@ -83,10 +83,9 @@ public class dialog_payment extends DialogFragment {
             public void onClick(View v) {
                 fetchData();
                 try {
-                    FileOutputStream fOut = getActivity().openFileOutput("debCode.txt", Context.MODE_PRIVATE);
-                  balance = String.valueOf(Math.abs(Math.abs(Double.parseDouble(balance)) - (Double.parseDouble(prev_pay) + Math.abs(Double.parseDouble(amountpay)))));
+                    FileOutputStream fOut = getActivity().openFileOutput("debCodes.txt", Context.MODE_PRIVATE);
 
-                    fOut.write(balance.getBytes());
+                    fOut.write(prev_pay.getBytes());
                     fOut.close();
 
                 } catch (FileNotFoundException e) {
