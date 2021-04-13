@@ -25,6 +25,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class cred_debtor_add extends Fragment {
     double interest;
     double prin_amount;
     ArrayList<cred_listDatageter> lists = new ArrayList<cred_listDatageter>();
-    // cred_Adapter adapaterLists;
+   // cred_Adapter adapaterLists;
     cred_listDatageter credListDatageter;
     String name, number;
     String balances = "";
@@ -49,22 +52,27 @@ public class cred_debtor_add extends Fragment {
     DecimalFormat df2 = new DecimalFormat("#.####");
     String usr_id ,cre_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd;
 
-    public cred_debtor_add(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd) {
-        this.usr_id =usr_id;
-        this.cre_code = usr_code;
-        this.usr_fullname = usr_fullname;
-        this.usr_cpnumber = usr_cpnumber;
-        this.usr_address = usr_address;
-        this.usr_birthdate = usr_birthdate;
-        this.usr_emailadd = usr_emailadd;
-    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cred_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_cred_debtor_add, container, false);
+        try {
+            FileInputStream fin = getActivity().openFileInput("file.txt");
+            int c;
 
+            while( (c = fin.read()) != -1){
+                temp = temp + (char) c;
+            }
 
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        cred_codess = temp;
         ListView list_Views = view.findViewById(R.id.cred_listView);
         cred_Adapter adapaterLists = new cred_Adapter(getContext(), lists);
         list_Views.setAdapter(adapaterLists);
@@ -92,7 +100,7 @@ public class cred_debtor_add extends Fragment {
                         prin_amount = Double.parseDouble(sads.getString("prin_amount"));
                         Log.d("deb_transid", deb_transid);
                     }
-                    fetchData(deb_transid);
+                 //   fetchData(deb_transid);
                     int term_lens = term_len;
                     double interest_rates = interest;
                     double principal_amounts = prin_amount;
@@ -191,21 +199,7 @@ public class cred_debtor_add extends Fragment {
                     txt_paymeth.setText(String.valueOf(term_len));
                     // txt_bals.setText(df2.format(Double.parseDouble(balances) - Double.parseDouble(cred_codess)));
 
-                    Button btnpay = view.findViewById(R.id.btn_pay);
-                    btnpay.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Bundle args = new Bundle();
-                            args.putString("deb_transid", deb_transid);
-                            args.putString("usr_code", usr_code);
-                            args.putString("deb_code", deb_code);
-                            args.putString("amountpay", amountpay);
-                            args.putString("balance", String.valueOf(Math.abs(Double.parseDouble(balances))));
-                            dialog_payment dialog_customs = new dialog_payment();
-                            dialog_customs.setArguments(args);
-                            dialog_customs.show(getFragmentManager(), "dialog_payment");
-                        }
-                    });
+
                     Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
@@ -218,8 +212,7 @@ public class cred_debtor_add extends Fragment {
         }) {
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                number += " ";
-                params.put("usr_code", number.substring(1, number.lastIndexOf(" ")));
+                params.put("usr_code", cred_codess);
                 Log.d("codes", params.toString());
                 return params;
             }
@@ -234,7 +227,7 @@ public class cred_debtor_add extends Fragment {
     public void fetchData(String id) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, fetchUrl, response -> {
             try {
-                String bals = "";
+
                 JSONObject jobj = new JSONObject(response);
                 String success = jobj.getString("success");
                 JSONArray sad = jobj.getJSONArray("user_info");

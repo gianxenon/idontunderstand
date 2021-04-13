@@ -84,7 +84,7 @@ public class dashbboard_fragment extends Fragment {
             public void onClick(View v) {
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,new cred_debtor_add(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).addToBackStack(TAG);
+                fragmentTransaction.replace(R.id.container_fragment,new cred_debtor_add()).addToBackStack(TAG);
                 fragmentTransaction.commit();
             }
         });
