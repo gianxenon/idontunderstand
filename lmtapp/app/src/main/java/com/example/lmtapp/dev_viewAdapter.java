@@ -6,30 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends BaseAdapter {
+public class dev_viewAdapter extends BaseAdapter {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     public Context context;
     public ArrayList<ListPojos> listpojos;
-    public MyAdapter(Context context, ArrayList<ListPojos> listpojos){
+    public dev_viewAdapter(Context context, ArrayList<ListPojos> listpojos){
         this.context = context;
         this.listpojos = listpojos;
     }
-    private creditors_uis.OnAddListener onAddListener;
-    public void setOnAddListener(creditors_uis.OnAddListener listener) {
-        this.onAddListener = listener;
-    }
 
+    private deb_view.OnAddListeners onAddListeners;
+    public void setOnAddListeners(deb_view.OnAddListeners onAddListeners) {
+        this.onAddListeners = onAddListeners;
+    }
     @Override
     public int getCount() {
         return listpojos.size();
@@ -45,6 +42,7 @@ public class MyAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         convertView = LayoutInflater.from(context).inflate(R.layout.custom_list,parent,false);
@@ -59,9 +57,7 @@ public class MyAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                onAddListener.onAdd(position, title.getText().toString(),description.getText().toString());
-
+                onAddListeners.onAdds(position, title.getText().toString(),description.getText().toString());
             }
         });
 

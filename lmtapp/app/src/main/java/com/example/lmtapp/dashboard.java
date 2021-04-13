@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +31,7 @@ import java.io.IOException;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         dashbboard_fragment.onFragmentBtnSelected,creditors_uis.onchoice {
-
+    private long pressedTime;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
@@ -110,7 +111,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     public void onBackPressed() {
 
-
+        if (pressedTime + 5000 > System.currentTimeMillis()) {
+            super.onBackPressed();
+            finish();
+        } else {
+            Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+        }
+        pressedTime = System.currentTimeMillis();
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {

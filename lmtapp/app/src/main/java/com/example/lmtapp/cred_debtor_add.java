@@ -43,6 +43,7 @@ public class cred_debtor_add extends Fragment {
     double prin_amount;
     ArrayList<cred_listDatageter> lists = new ArrayList<cred_listDatageter>();
    // cred_Adapter adapaterLists;
+   static final String TAG= cred_debtor_add.class.getSimpleName();
     cred_listDatageter credListDatageter;
     String name, number;
     String balances = "";
@@ -52,6 +53,11 @@ public class cred_debtor_add extends Fragment {
     DecimalFormat df2 = new DecimalFormat("#.####");
     String usr_id ,cre_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd;
 
+    public cred_debtor_add(String name, String number) {
+        this.name = name;
+        this.number = number;
+
+    }
 
 
     @Nullable

@@ -84,8 +84,9 @@ public class dashbboard_fragment extends Fragment {
             public void onClick(View v) {
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,new cred_debtor_add()).addToBackStack(TAG);
-                fragmentTransaction.commit();
+                fragmentTransaction.replace(R.id.container_fragment,new deb_view());
+                fragmentTransaction.addToBackStack(null).commit();
+
             }
         });
         regQ_spinner1=view.findViewById(R.id.spinner);
