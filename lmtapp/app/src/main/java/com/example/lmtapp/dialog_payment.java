@@ -82,17 +82,7 @@ public class dialog_payment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 fetchData();
-                try {
-                    FileOutputStream fOut = getActivity().openFileOutput("debCodes.txt", Context.MODE_PRIVATE);
 
-                    fOut.write(prev_pay.getBytes());
-                    fOut.close();
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 

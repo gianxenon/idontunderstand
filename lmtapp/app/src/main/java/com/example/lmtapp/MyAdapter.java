@@ -59,7 +59,6 @@ public class MyAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Position"+ position,Toast.LENGTH_SHORT).show();
                 onAddListener.onAdd(position, title.getText().toString(),description.getText().toString());
             }
         });

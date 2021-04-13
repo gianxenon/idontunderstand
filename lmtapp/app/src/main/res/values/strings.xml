@@ -100,5 +100,6 @@
     <string name="edt_dialogDate">"Date "</string>
     <string name="img_dialogReciept">Dialog Image</string>
     <string name="btn_dialogPay">Pay</string>
+    <string name="img_debhist">History</string>
 
 </resources>

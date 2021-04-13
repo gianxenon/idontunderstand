@@ -18,6 +18,8 @@ import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -43,8 +45,9 @@ public class dashbboard_fragment extends Fragment {
     Spinner regQ_spinner1;
     String ofChoice = "";
     ListPojos listPojosa;
-    ImageView cred;
-
+    ImageView cred,debt;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/fecth.php";
     private RequestQueue requestQueue;
     private static final String TAG= registration.class.getSimpleName();
@@ -74,6 +77,17 @@ public class dashbboard_fragment extends Fragment {
 
         cred = view.findViewById(R.id.imageView4);
         cred.setOnClickListener(v -> listener.onButtonSelected());
+
+        debt = view.findViewById(R.id.imageView5);
+        debt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new cred_debtor_add(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).addToBackStack(TAG);
+                fragmentTransaction.commit();
+            }
+        });
         regQ_spinner1=view.findViewById(R.id.spinner);
         int[] images = {R.drawable.ad1 ,R.drawable.ad2, R.drawable.ad3,R.drawable.ad4};
         viewFlipper = view.findViewById(R.id.v_flipper);
