@@ -55,7 +55,7 @@ public class cred_view extends Fragment {
     String temp = "";
     String cred_codess = "0";
     DecimalFormat df2 = new DecimalFormat("#.####");
-
+    TextView txt_bal;
     public cred_view(String name, String number) {
         this.name = name;
         this.number = number;
@@ -66,7 +66,22 @@ public class cred_view extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cred_view, container, false);
+        try {
+            FileInputStream fin = getActivity().openFileInput("file.txt");
+            int c;
 
+            while( (c = fin.read()) != -1){
+                temp = temp + (char) c;
+            }
+
+            fin.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        cred_codess = temp;
 
         ListView list_Views = view.findViewById(R.id.cred_listView);
         cred_Adapter adapaterLists = new cred_Adapter(getContext(), lists);
@@ -222,7 +237,7 @@ public class cred_view extends Fragment {
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 number += " ";
-                params.put("usr_code", number.substring(1, number.lastIndexOf(" ")));
+                params.put("usr_code", cred_codess);
                 Log.d("codes", params.toString());
                 return params;
             }
@@ -249,11 +264,11 @@ public class cred_view extends Fragment {
                         cred_codess = sads.getString("sum_score");
 
                     }
-                    TextView txt_bal = getView().findViewById(R.id.edt_bal);
+                     txt_bal = getView().findViewById(R.id.edt_bal);
                         txt_bal.setText(df2.format(Double.parseDouble(balances) - Double.parseDouble(cred_codess)));
 
                 } else {
-                    TextView txt_bal = getView().findViewById(R.id.edt_bal);
+                     txt_bal = getView().findViewById(R.id.edt_bal);
                     txt_bal.setText(df2.format(Double.parseDouble(balances)));
                 }
             } catch (Exception e) {

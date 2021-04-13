@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class cred_debtor_add extends Fragment {
-    private String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtableview.php";
+    private String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deblist.php";
     private String fetchUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/transhistory.php";
     private RequestQueue requestQueue;
     public static String deb_transid, deb_fn, deb_cpnum, deb_emls, deb_adrs, usr_code, deb_code, typeofterm;
@@ -106,7 +106,7 @@ public class cred_debtor_add extends Fragment {
                         prin_amount = Double.parseDouble(sads.getString("prin_amount"));
                         Log.d("deb_transid", deb_transid);
                     }
-                 //   fetchData(deb_transid);
+                  fetchData(deb_transid);
                     int term_lens = term_len;
                     double interest_rates = interest;
                     double principal_amounts = prin_amount;

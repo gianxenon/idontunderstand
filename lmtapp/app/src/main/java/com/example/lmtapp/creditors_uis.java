@@ -57,7 +57,7 @@ public class creditors_uis extends Fragment {
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
-    int pos =0;
+
 
     ListPojos listPojosa;
     String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;

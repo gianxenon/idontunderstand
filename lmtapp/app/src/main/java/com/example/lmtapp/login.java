@@ -111,8 +111,7 @@ public class login extends AppCompatActivity {
                              usr_emailadd = sads.getString("usr_emailadd");
                              usr_username = sads.getString("usr_username");
                              usr_password = sads.getString("usr_password");
-                           // Toast.makeText(login.this, "fetch success", Toast.LENGTH_SHORT).show();
-                           // Toast.makeText(login.this, "fetch success" + "name = " + usr_fullname, Toast.LENGTH_SHORT).show();
+
                         }
 
                              Toast.makeText(login.this, "Login Successfully", Toast.LENGTH_SHORT).show();
