@@ -43,24 +43,26 @@ public class creditors_uis extends Fragment {
     ListView listView;
     public static ArrayList<ListPojos> list= new ArrayList<ListPojos>();
     MyAdapter adapaterList;
-    static FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
+
     ImageView imageView;
 
-    String temp1 = "";
-    String cred_codes;
     //database
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtable.php";
     private RequestQueue requestQueue;
     private static final String TAG= creditors_uis.class.getSimpleName();
-    int success;
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
 
 
     ListPojos listPojosa;
-    String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount;
+    String deb_fn ,deb_cpnum,deb_emls,deb_adrs,usr_code,deb_code,typeofterm,term_len,interest,prin_amount,usr_imageUrl;
+    String lenders_id,lenders_code;
+
+    public creditors_uis(String lenders_id, String lenders_code) {
+        this.lenders_code = lenders_code;
+        this.lenders_id = lenders_id;
+    }
 
     @Nullable
     @Override
@@ -70,37 +72,11 @@ public class creditors_uis extends Fragment {
         imageView = view.findViewById(R.id.img_fltbtn);
         listView = view.findViewById(R.id.list_view);
 
-        try {
-            FileInputStream fin = getActivity().openFileInput("file.txt");
-            int c;
-
-            while( (c = fin.read()) != -1){
-                temp1 = temp1 + (char) c;
-            }
-
-            fin.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        cred_codes = temp1;
 
         adapaterList = new MyAdapter(getActivity(), list);
         listView.setAdapter(adapaterList);
 
-        adapaterList.setOnAddListener(new OnAddListener() {
-            @Override
-            public void onAdd(int position, String name, String number) {
 
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,new cred_view(name,number)).addToBackStack(TAG);
-                fragmentTransaction.commit();
-
-            }
-        });
      //   if(list.size() == 0){
           //  listeners.onchoices();
 
@@ -109,7 +85,7 @@ public class creditors_uis extends Fragment {
 
         imageView.setOnClickListener(v -> {
 
-            dialog_custom dialog_customs = new dialog_custom();
+            dialog_custom dialog_customs = new dialog_custom(lenders_id,lenders_code);
             dialog_customs.show(getFragmentManager(),"dialog_custom");
 
     });
@@ -117,9 +93,7 @@ public class creditors_uis extends Fragment {
         return view;
     }
 
-    public interface OnAddListener {
-        public void onAdd(int position, String name,String number);
-    }
+
 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -159,29 +133,30 @@ public class creditors_uis extends Fragment {
                             term_len = sads.getString("term_len");
                             interest = sads.getString("interest");
                             prin_amount = sads.getString("prin_amount");
-                            listPojosa = new ListPojos(deb_fn,deb_cpnum,R.drawable.profilepic);
+                            usr_imageUrl = sads.getString("usr_imageUrl");
+                            listPojosa = new ListPojos(deb_fn,deb_cpnum,usr_imageUrl  );
                             list.add(listPojosa);
                             adapaterList.notifyDataSetChanged();
                             }
-                        Toast.makeText(getContext().getApplicationContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getContext().getApplicationContext(), "You don't have Debtors yet ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "You don't have Debtors yet ", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getContext().getApplicationContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
                 }
             }, (VolleyError error) -> {
-                Toast.makeText(getContext().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
             }){
                 public Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("usr_code", cred_codes);
-                    Log.d("codes",cred_codes);
+                    params.put("usr_code", lenders_code);
+
                     return params;
                 }
             };
-            requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
-         //   stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
+            requestQueue= Volley.newRequestQueue(getContext());
+          stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
             requestQueue.add(stringRequest);
         }
     }

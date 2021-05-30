@@ -2,63 +2,89 @@ package com.example.lmtapp;
 
 public class data_constructor {
 
-    String cred_codes,usr_code, payment_date,typeofterms,deb_lengthterm,deb_numberofperiod,deb_payment,deb_prinpaid,deb_intpaid,deb_balance,deb_paymentstat;
+    String usr_id,cred_codes,deb_code, deb_OpenPos,typeofterms,deb_lengthterm,PAYMENY_METHOD,CAPITAL,INTEREST;
 
-    public data_constructor(String cred_codes, String usr_code, String payment_date, String typeofterms, String deb_lengthterm, String deb_numberofperiod, String deb_payment, String deb_prinpaid, String deb_intpaid, String deb_balance, String deb_paymentstat) {
+    public data_constructor(String usr_id,String cred_codes, String deb_code, String deb_OpenPos, String typeofterms,String PAYMENY_METHOD ,String deb_lengthterm , String CAPITAL, String INTEREST) {
         this.cred_codes = cred_codes;
-        this.usr_code = usr_code;
-        this.payment_date = payment_date;
+        this.deb_code = deb_code;
+        this.deb_OpenPos = deb_OpenPos;
         this.typeofterms = typeofterms;
         this.deb_lengthterm = deb_lengthterm;
-        this.deb_numberofperiod = deb_numberofperiod;
-        this.deb_payment = deb_payment;
-        this.deb_prinpaid = deb_prinpaid;
-        this.deb_intpaid = deb_intpaid;
-        this.deb_balance = deb_balance;
-        this.deb_paymentstat = deb_paymentstat;
+        this.PAYMENY_METHOD = PAYMENY_METHOD;
+        this.CAPITAL = CAPITAL;
+        this.INTEREST = INTEREST;
+        this.usr_id = usr_id;
+    }
+
+    public String getUsr_id() {
+        return usr_id;
+    }
+
+    public void setUsr_id(String usr_id) {
+        this.usr_id = usr_id;
     }
 
     public String getCred_codes() {
         return cred_codes;
     }
 
-    public String getUsr_code() {
-        return usr_code;
+    public void setCred_codes(String cred_codes) {
+        this.cred_codes = cred_codes;
     }
 
-    public String getPayment_date() {
-        return payment_date;
+    public String getDeb_code() {
+        return deb_code;
+    }
+
+    public void setDeb_code(String deb_code) {
+        this.deb_code = deb_code;
+    }
+
+    public String getDeb_OpenPos() {
+        return deb_OpenPos;
+    }
+
+    public void setDeb_OpenPos(String deb_OpenPos) {
+        this.deb_OpenPos = deb_OpenPos;
     }
 
     public String getTypeofterms() {
         return typeofterms;
     }
 
+    public void setTypeofterms(String typeofterms) {
+        this.typeofterms = typeofterms;
+    }
+
     public String getDeb_lengthterm() {
         return deb_lengthterm;
     }
 
-    public String getDeb_numberofperiod() {
-        return deb_numberofperiod;
+    public void setDeb_lengthterm(String deb_lengthterm) {
+        this.deb_lengthterm = deb_lengthterm;
     }
 
-    public String getDeb_payment() {
-        return deb_payment;
+    public String getPAYMENY_METHOD() {
+        return PAYMENY_METHOD;
     }
 
-    public String getDeb_prinpaid() {
-        return deb_prinpaid;
+    public void setPAYMENY_METHOD(String PAYMENY_METHOD) {
+        this.PAYMENY_METHOD = PAYMENY_METHOD;
     }
 
-    public String getDeb_intpaid() {
-        return deb_intpaid;
+    public String getCAPITAL() {
+        return CAPITAL;
     }
 
-    public String getDeb_balance() {
-        return deb_balance;
+    public void setCAPITAL(String CAPITAL) {
+        this.CAPITAL = CAPITAL;
     }
 
-    public String getDeb_paymentstat() {
-        return deb_paymentstat;
+    public String getINTEREST() {
+        return INTEREST;
+    }
+
+    public void setINTEREST(String INTEREST) {
+        this.INTEREST = INTEREST;
     }
 }

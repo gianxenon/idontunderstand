@@ -10,16 +10,24 @@
         android:layout_height="160dp"
         android:orientation="vertical"
         android:background="#dbf2fd">
-
-        <ImageView
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/draw_img4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginLeft="30dp"
             android:layout_marginStart="30dp"
             android:layout_centerVertical="true"
-            android:contentDescription="@string/draw_img4"
-            app:srcCompat="@drawable/ui_logo2nd" />
+            android:layout_gravity="center"
+            android:contentDescription="@string/reg_imgBrowse"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profilepic"
+            app:civ_border_color="#dbf2fd"
+            app:civ_border_width="1dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#808080"
+            app:civ_shadow_gravity="center"
+            app:civ_shadow_radius="10" />
+
 
         <TextView
             android:id="@+id/drawer_txt1"

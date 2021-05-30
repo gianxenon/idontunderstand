@@ -21,14 +21,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp">
-
-                <ImageView
+                <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/img_vCs"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_alignParentTop="true"
-                    android:contentDescription="@string/img_vCs" />
+                    android:contentDescription="@string/reg_imgBrowse"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profilepic"
+                    app:civ_border_color="#dbf2fd"
+                    app:civ_border_width="1dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_color="#808080"
+                    app:civ_shadow_gravity="center"
+                    app:civ_shadow_radius="10" />
 
                 <TextView
                     android:id="@+id/txt_name"
@@ -38,7 +45,7 @@
                     android:layout_toEndOf="@id/img_vCs"
                     android:layout_marginLeft="30dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/txt_name" />
 
                 <TextView

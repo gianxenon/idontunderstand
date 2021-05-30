@@ -137,7 +137,7 @@ public class deb_view extends Fragment {
                         term_len = sads.getString("term_len");
                         interest = sads.getString("interest");
                         prin_amount = sads.getString("prin_amount");
-                        listPojosa = new ListPojos(deb_fn,deb_cpnum,R.drawable.profilepic);
+                      //  listPojosa = new ListPojos(deb_fn,deb_cpnum,R.drawable.profilepic);
                         list.add(listPojosa);
                         adapaterList.notifyDataSetChanged();
                     }

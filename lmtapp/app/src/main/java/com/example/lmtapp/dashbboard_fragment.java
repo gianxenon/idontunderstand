@@ -1,30 +1,32 @@
 package com.example.lmtapp;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -32,12 +34,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
-public class dashbboard_fragment extends Fragment {
-    private onFragmentBtnSelected listener;
+public class dashbboard_fragment extends Fragment  {
+    private static final String TAG= dashbboard_fragment.class.getSimpleName();
+    private  onFragmentBtnSelected listener;
     ViewFlipper viewFlipper ;
     ListView listView;
     public static ArrayList<ListPojos> list= new ArrayList<ListPojos>();;
@@ -48,17 +53,20 @@ public class dashbboard_fragment extends Fragment {
     ImageView cred,debt;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/fecth.php";
+    //String temp = "";
+   // String cred_codess = "0";
+    private  String fetchingUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/fecth.php";
     private RequestQueue requestQueue;
-    private static final String TAG= registration.class.getSimpleName();
-    int success;
+    private static final int TIME_DELAY = 2000;
+    private static long back_pressed;
+ int esit = 0;
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
 
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
+    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl;
 
-    public dashbboard_fragment(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd, String usr_username, String usr_password) {
+    public dashbboard_fragment(String usr_id, String usr_code, String usr_fullname, String usr_cpnumber, String usr_address, String usr_birthdate, String usr_emailadd, String usr_username, String usr_password,String usr_imageUrl) {
         this.usr_id = usr_id;
         this.usr_code = usr_code;
         this.usr_fullname = usr_fullname;
@@ -68,6 +76,7 @@ public class dashbboard_fragment extends Fragment {
         this.usr_emailadd = usr_emailadd;
         this.usr_username = usr_username;
         this.usr_password = usr_password;
+        this.usr_imageUrl = usr_imageUrl;
     }
 
     @Nullable
@@ -75,9 +84,15 @@ public class dashbboard_fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashbboard_fragment,container,false);
 
+
+
+
+        //creditors View
         cred = view.findViewById(R.id.imageView4);
         cred.setOnClickListener(v -> listener.onButtonSelected());
+        //end of method => creditors View
 
+        //debtors View
         debt = view.findViewById(R.id.imageView5);
         debt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +104,17 @@ public class dashbboard_fragment extends Fragment {
 
             }
         });
+        //end of method => debtors View
+
+        //images (advertisment)
         regQ_spinner1=view.findViewById(R.id.spinner);
         int[] images = {R.drawable.ad1 ,R.drawable.ad2, R.drawable.ad3,R.drawable.ad4};
         viewFlipper = view.findViewById(R.id.v_flipper);
         for(int image : images){
             flipper_image(image);
         }
+        //end images (advertisment)
+
         //spinner
         final ArrayList<String> choice = new ArrayList<>();
         choice.add("CREDITORS");
@@ -113,24 +133,34 @@ public class dashbboard_fragment extends Fragment {
 
             }
         });
-//end of spinner
+        //end of spinner
 
 
 
-
+        //getting data for rating listView
         listView = view.findViewById(R.id.list_view);
-
-
         adapaterList = new MyAdapter(getActivity(), list);
         listView.setAdapter(adapaterList);
-        if(list.size() == 0){
-            //listener.onButtonSelected();
-        }
         listShow();
+        //end of getting data for rating listView
+
+        //method to check the user in rating list
+        BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new deb_view());
+                fragmentTransaction.addToBackStack(null).commit();
+            }
+        };
+        getContext().registerReceiver(mBroadcastReceiver, new IntentFilter("call.myfragment.action")); // This code is in your Activity will be in onCreate() or in onResume() method.
+    //end of method to check the user in rating list
+
         return  view;
     }//oncreate
 
-
+//creditors view method  connected to dashboard.java
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -140,13 +170,29 @@ public class dashbboard_fragment extends Fragment {
         }else {
             throw  new ClassCastException(context.toString() + "must implement listener");
         }
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                //Toast.makeText(getContext(), "back pressed", Toast.LENGTH_SHORT).show();
+                if (back_pressed + TIME_DELAY > System.currentTimeMillis()) {
+                 new exitDialogFragment().show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(),"exitDialogFragment");
+                } else {
+                    Toast.makeText(getContext(), "Press once again to exit!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                back_pressed = System.currentTimeMillis();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     public interface onFragmentBtnSelected{
         void onButtonSelected();
     }
+    //end => creditors view method  connected to dashboard.java
 
-
+    //ads
     public void flipper_image(int image) {
         ImageView imageView = new ImageView(getActivity());
         imageView.setBackgroundResource(image);
@@ -156,10 +202,12 @@ public class dashbboard_fragment extends Fragment {
         viewFlipper.setInAnimation(getActivity(), android.R.anim.slide_in_left);
         viewFlipper.setOutAnimation(getActivity(), android.R.anim.slide_out_right);
     }
+    //ads
 
+    //fetching  data -> list of user in ratings
     private void listShow() {
- StringRequest stringRequest  = new StringRequest(Request.Method.POST, insertionUrl, response -> {
-     list.clear();
+        StringRequest stringRequest  = new StringRequest(Request.Method.POST, fetchingUrl, response -> {
+        list.clear();
      try {
 
          JSONObject jobj = new JSONObject(response);
@@ -175,7 +223,8 @@ public class dashbboard_fragment extends Fragment {
                  usr_address = sads.getString("usr_address");
                  usr_birthdate = sads.getString("usr_birthdate");
                  usr_emailadd = sads.getString("usr_emailadd");
-                 listPojosa = new ListPojos(usr_fullname,usr_cpnumber,R.drawable.profilepic);
+                 usr_imageUrl = sads.getString("usr_imageUrl");
+                 listPojosa = new ListPojos(usr_fullname,usr_cpnumber,usr_imageUrl);
                  list.add(listPojosa);
                  adapaterList.notifyDataSetChanged();
 
@@ -192,5 +241,9 @@ public class dashbboard_fragment extends Fragment {
         requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
         //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
         requestQueue.add(stringRequest);
-    }
-    }
+    }//end of listShow() =>fetching data for rating list
+
+
+
+
+    }//end of class

@@ -2,7 +2,10 @@ package com.example.lmtapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
@@ -37,10 +41,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
+    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl;
     ImageView logdash;
     TextView  draw_txt;
-
+    private static final String TAG= dashbboard_fragment.class.getSimpleName();
 
 
     @Override
@@ -61,10 +65,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         usr_emailadd = bundle.getString("usr_emailadd");
         usr_username = bundle.getString("usr_username");
         usr_password = bundle.getString("usr_password");
-
+        usr_imageUrl = bundle.getString("usr_imageUrl");
 
         try {
-            FileOutputStream fOut = openFileOutput("file.txt",Context.MODE_PRIVATE);
+            FileOutputStream fOut = openFileOutput("file.txt", Context.MODE_PRIVATE);
 
 
             fOut.write(usr_code.getBytes());
@@ -87,12 +91,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
 
-        //load default Fragment
+        //load main dashboard Fragment
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.container_fragment, new dashbboard_fragment( usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password));
+       // usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl
+        fragmentTransaction.add(R.id.container_fragment, new dashbboard_fragment( usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl));
         fragmentTransaction.commit();
-
+        //end main dashboard Fragment
 
         View hView =  navigationView.inflateHeaderView(R.layout.drawer_header);
         ImageView imgvw = (ImageView)hView.findViewById(R.id.draw_img4);
@@ -100,8 +105,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         TextView draw_txt2 = (TextView)hView.findViewById(R.id.drawer_txt2);
         draw_txt.setText(usr_fullname);
         draw_txt2.setText(usr_cpnumber);
+        String url = "https://hellorandroid.000webhostapp.com/android_phpcon/Image/" + usr_imageUrl;
 
-
+        Glide.with(hView.getContext().getApplicationContext()).load(url).into(imgvw);
 
     }//On Create
 
@@ -116,6 +122,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
 
+
+
     }
 
     @Override
@@ -124,15 +132,15 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         if (menuItem.getItemId() == R.id.home) {
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment, new dashbboard_fragment(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password));
+            fragmentTransaction.add(R.id.container_fragment, new dashbboard_fragment( usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl));
             fragmentTransaction.commit();
         }
 
         if (menuItem.getItemId() == R.id.home1) {
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment, new dashbboard_fragment(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password));
-            fragmentTransaction.addToBackStack(null).commit();
+            fragmentTransaction.add(R.id.container_fragment, new dashbboard_fragment( usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl));
+            fragmentTransaction.commit();
         }
         return true;
     }
@@ -140,10 +148,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public void onButtonSelected() {
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_fragment, new creditors_uis());
+        fragmentTransaction.replace(R.id.container_fragment, new creditors_uis( usr_id ,usr_code));
         fragmentTransaction.addToBackStack(null).commit();
+
+
     }
 
     public void onchoices() {
@@ -163,4 +174,5 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentTransaction.commit();
 */
     }
+
 }

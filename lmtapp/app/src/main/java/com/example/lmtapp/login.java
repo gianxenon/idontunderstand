@@ -2,9 +2,11 @@ package com.example.lmtapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.audiofx.DynamicsProcessing;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +43,7 @@ public class login extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static final String TAG= login.class.getSimpleName();
     private  String tag_json_obj= "json_obj_req";
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
+    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class login extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
         btn_login = findViewById(R.id.btn_logLogin);
         btn_login.setOnClickListener(v -> {
             usr=uname.getText().toString();
@@ -64,15 +70,18 @@ public class login extends AppCompatActivity {
         }else {
             btn_login.setClickable(false);
            sendUrl();
+            btn_login.setClickable(true);
         }
         });
+
+        //fullscreen code
         deroc = getWindow().getDecorView();
         deroc.setOnSystemUiVisibilityChangeListener(visibility -> {
             if(visibility == 0){
                 deroc.setSystemUiVisibility(hideSystembars());
             }
         });
-    }
+    }///onCreate end
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -111,10 +120,11 @@ public class login extends AppCompatActivity {
                              usr_emailadd = sads.getString("usr_emailadd");
                              usr_username = sads.getString("usr_username");
                              usr_password = sads.getString("usr_password");
+                             usr_imageUrl= sads.getString("usr_imageUrl");
 
                         }
 
-                             Toast.makeText(login.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(login.this, dashboard.class);
                             intent.putExtra("usr_id",usr_id);
                             intent.putExtra("usr_code",usr_code);
@@ -124,8 +134,10 @@ public class login extends AppCompatActivity {
                             intent.putExtra("usr_emailadd",usr_emailadd);
                             intent.putExtra("usr_username",usr_username);
                             intent.putExtra("usr_password",usr_password);
+                            intent.putExtra("usr_imageUrl",usr_imageUrl);
                             startActivity(intent);
                             finish();
+
                     } else {
                         Toast.makeText(login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                     }

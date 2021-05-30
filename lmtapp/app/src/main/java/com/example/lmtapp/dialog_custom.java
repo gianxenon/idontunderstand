@@ -2,6 +2,7 @@ package com.example.lmtapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,16 +37,21 @@ public class dialog_custom  extends DialogFragment  {
     private Button oks,cls;
     private final String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/custom_dialog.php";
     private RequestQueue requestQueue;
-    private static final String TAG= dialog_custom.class.getSimpleName();
+    private static final String TAG= creditors_uis.class.getSimpleName();
     private  String TAG_SUCCESS = "success";
     private  String TAG_MESSAGE = "message";
     private  String tag_json_obj= "json_obj_req";
-    String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password;
+    String  deb_openpos,usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_imageUrl;
     public static String edt_code;
 
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    String lenders_id,lenders_code;
+    public dialog_custom(String lenders_id, String lenders_code) {
+        this.lenders_id = lenders_id;
+        this.lenders_code = lenders_code;
+    }
 
     @Nullable
     @Override
@@ -70,8 +76,9 @@ public class dialog_custom  extends DialogFragment  {
                String success = jobj.getString("success");
                 JSONArray sad = jobj.getJSONArray("user_info");
                 if (success.equals("1")) {
-                    for (int i = 0; i < jobj.length()  -1 ; i++) {
+                    for (int i = 0; i < jobj.length() -1; i++) {
                         JSONObject sads = sad.getJSONObject(i);
+                        deb_openpos = sads.getString("deb_OpenPos");
                         usr_id = sads.getString("usr_id");
                         usr_code = sads.getString("usr_code");
                         usr_fullname = sads.getString("usr_fullname");
@@ -79,13 +86,15 @@ public class dialog_custom  extends DialogFragment  {
                         usr_address = sads.getString("usr_address");
                         usr_birthdate = sads.getString("usr_birthdate");
                         usr_emailadd = sads.getString("usr_emailadd");
+                        usr_imageUrl = sads.getString("usr_imageUrl");
 
                     }
-
+                    Log.d("chks",response);
                     Toast.makeText(Objects.requireNonNull(getContext()).getApplicationContext(), "Code exist", Toast.LENGTH_SHORT).show();
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs(usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd)).addToBackStack(TAG);
+
+                        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs( deb_openpos, lenders_id,  lenders_code, usr_id,  usr_code,  usr_fullname,  usr_cpnumber,  usr_address,  usr_birthdate,  usr_emailadd,  usr_imageUrl)).addToBackStack(null);
                     fragmentTransaction.commit();
                     //listener.ondialogBtnSelected();
                   getDialog().dismiss();

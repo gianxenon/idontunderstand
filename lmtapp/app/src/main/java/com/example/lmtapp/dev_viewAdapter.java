@@ -52,7 +52,7 @@ public class dev_viewAdapter extends BaseAdapter {
         ImageView imageView = convertView.findViewById(R.id.img_vCs);
         title.setText(listpojos.get(position).getTitle());
         description.setText(listpojos.get(position).getDescription());
-        imageView.setImageResource(listpojos.get(position).getImages());
+       // imageView.setImageResource(listpojos.get(position).getImages());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
