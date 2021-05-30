@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +33,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class dashbboard_fragment extends Fragment  {
-    private static final String TAG= dashbboard_fragment.class.getSimpleName();
     private  onFragmentBtnSelected listener;
     ViewFlipper viewFlipper ;
     ListView listView;
-    public static ArrayList<ListPojos> list= new ArrayList<ListPojos>();;
+    public static ArrayList<ListPojos> list= new ArrayList<>();
     MyAdapter adapaterList;
     Spinner regQ_spinner1;
     String ofChoice = "";
@@ -59,10 +54,7 @@ public class dashbboard_fragment extends Fragment  {
     private RequestQueue requestQueue;
     private static final int TIME_DELAY = 2000;
     private static long back_pressed;
- int esit = 0;
-    private  String TAG_SUCCESS = "success";
-    private  String TAG_MESSAGE = "message";
-    private  String tag_json_obj= "json_obj_req";
+
 
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl;
 
@@ -94,15 +86,12 @@ public class dashbboard_fragment extends Fragment  {
 
         //debtors View
         debt = view.findViewById(R.id.imageView5);
-        debt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container_fragment,new deb_view());
-                fragmentTransaction.addToBackStack(null).commit();
+        debt.setOnClickListener(v -> {
+            fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_fragment,new deb_view());
+            fragmentTransaction.addToBackStack(null).commit();
 
-            }
         });
         //end of method => debtors View
 
@@ -148,13 +137,13 @@ public class dashbboard_fragment extends Fragment  {
         BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_fragment,new deb_view());
                 fragmentTransaction.addToBackStack(null).commit();
             }
         };
-        getContext().registerReceiver(mBroadcastReceiver, new IntentFilter("call.myfragment.action")); // This code is in your Activity will be in onCreate() or in onResume() method.
+        Objects.requireNonNull(getContext()).registerReceiver(mBroadcastReceiver, new IntentFilter("call.myfragment.action")); // This code is in your Activity will be in onCreate() or in onResume() method.
     //end of method to check the user in rating list
 
         return  view;
@@ -230,15 +219,13 @@ public class dashbboard_fragment extends Fragment  {
 
              }
          } else {
-             Toast.makeText(getContext().getApplicationContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
+             Toast.makeText(getContext(), "error Fetching data for list", Toast.LENGTH_SHORT).show();
          }
      } catch (Exception e) {
-         Toast.makeText(getContext().getApplicationContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
+         Toast.makeText(getContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
      }
- }, (VolleyError error) -> {
-     Toast.makeText(getContext().getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
- });
-        requestQueue= Volley.newRequestQueue(getContext().getApplicationContext());
+ }, (VolleyError error) -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show());
+        requestQueue= Volley.newRequestQueue(Objects.requireNonNull(getContext()));
         //stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,1,1.0f));
         requestQueue.add(stringRequest);
     }//end of listShow() =>fetching data for rating list
