@@ -152,7 +152,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, new creditors_uis( usr_id ,usr_code));
-        fragmentTransaction.addToBackStack(null).commit();
+        fragmentTransaction.addToBackStack(TAG).commit();
 
 
     }

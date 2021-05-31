@@ -94,7 +94,7 @@ public class dialog_custom  extends DialogFragment  {
                     fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentTransaction = fragmentManager.beginTransaction();
 
-                        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs( deb_openpos, lenders_id,  lenders_code, usr_id,  usr_code,  usr_fullname,  usr_cpnumber,  usr_address,  usr_birthdate,  usr_emailadd,  usr_imageUrl)).addToBackStack(null);
+                        fragmentTransaction.replace(R.id.container_fragment,new frag_CredLoan_transProcs( deb_openpos, lenders_id,  lenders_code, usr_id,  usr_code,  usr_fullname,  usr_cpnumber,  usr_address,  usr_birthdate,  usr_emailadd,  usr_imageUrl)).addToBackStack("creditors_uis");
                     fragmentTransaction.commit();
                     //listener.ondialogBtnSelected();
                   getDialog().dismiss();

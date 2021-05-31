@@ -1,9 +1,8 @@
 package com.example.lmtapp;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,24 +22,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class frag_CredLoan_transProcs extends Fragment      {
 
-    private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
+    private final String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/deb_transac.php";
     private RequestQueue requestQueue;
     ListView list_Views;
     public static ArrayList<procdata_list> lists= new ArrayList<>();
@@ -56,12 +47,10 @@ public class frag_CredLoan_transProcs extends Fragment      {
     EditText edt_prinAmount;
     EditText deb_fn, deb_cpnum,deb_emls,deb_adrs ;
     String ofChoice = "";
-    String temp = "";
-    String cred_codes;
+
     String lenders_id,lenders_code;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    int pos ;
+
+
     //computation Variables
     ArrayList<data_constructor> listss = new ArrayList<>();
             int terms;
@@ -95,36 +84,6 @@ public class frag_CredLoan_transProcs extends Fragment      {
 
         requestQueue = Volley.newRequestQueue(getContext());
 
-        try {
-            FileInputStream fin = getActivity().openFileInput("file.txt");
-            int c;
-
-            while( (c = fin.read()) != -1){
-                temp = temp + (char) c;
-            }
-
-            fin.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        cred_codes = temp;
-
-  /*
-        try {
-            FileOutputStream fOut = getActivity().openFileOutput("file.txt",Context.MODE_PRIVATE);
-
-
-            fOut.write(usr_code.getBytes());
-            fOut.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- */
 
     //debtor_info
         deb_fn = view.findViewById(R.id.deb_fn);
@@ -226,6 +185,8 @@ public class frag_CredLoan_transProcs extends Fragment      {
             double bal = payFormula * n;
             double e;
             double t;
+            Calendar c =  Calendar.getInstance();
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             for (int i = 1; i <= n; i++) {
                 DecimalFormat df2 = new DecimalFormat("#.####");
                 e = (float) Math.pow(1 + r, i - 1);
@@ -233,7 +194,12 @@ public class frag_CredLoan_transProcs extends Fragment      {
                 prinFormula = payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
                 inteFormula = (-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
                 bal = bal - payFormula;
-                listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)),lenders_id,usr_id,deb_openpos,lenders_code,usr_code,"-");
+
+
+                c.add(Calendar.MONTH,1);
+                String chk = sdf.format(c.getTime());
+               // arrayList.add(chk);
+                listPojosa = new procdata_list(chk, df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)),lenders_id,usr_id,deb_openpos,lenders_code,usr_code,"-");
                 lists.add(listPojosa);
             }
 
@@ -284,7 +250,8 @@ public class frag_CredLoan_transProcs extends Fragment      {
                 prinFormula = payFormula + (payFormula * (e - 1) / r + principal_amount * (t)) * r;
                 inteFormula = (-(payFormula * (e - 1) / r + principal_amount * (t)) * r);
                 bal = bal - payFormula;
-                String pay_stat = "--";
+
+
                 listPojosa = new procdata_list(String.valueOf(i), df2.format(Math.abs(payFormula)), df2.format(Math.abs(prinFormula)), df2.format(Math.abs(inteFormula)), df2.format(Math.abs(bal)),lenders_id,usr_id,deb_openpos,lenders_code,usr_code,"-");
                 lists.add(listPojosa);
             }
