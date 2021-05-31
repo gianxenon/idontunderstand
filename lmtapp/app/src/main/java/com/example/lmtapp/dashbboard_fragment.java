@@ -133,7 +133,7 @@ public class dashbboard_fragment extends Fragment  {
         listShow();
         //end of getting data for rating listView
 
-        //method to check the user in rating list
+        //method to check the user in rating list (use to clicked items on the list )
         BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

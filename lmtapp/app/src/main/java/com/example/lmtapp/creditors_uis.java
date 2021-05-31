@@ -1,24 +1,17 @@
 package com.example.lmtapp;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,9 +23,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +31,7 @@ public class creditors_uis extends Fragment {
    //private static final String TAG = "creditors_uis";
     private creditors_uis.onchoice listeners;
     ListView listView;
-    public static ArrayList<ListPojos> list= new ArrayList<ListPojos>();
+    public static ArrayList<ListPojos> list= new ArrayList<>();
     MyAdapter adapaterList;
 
     ImageView imageView;
@@ -50,9 +40,6 @@ public class creditors_uis extends Fragment {
     private  String insertionUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/debtable.php";
     private RequestQueue requestQueue;
     private static final String TAG= creditors_uis.class.getSimpleName();
-    private  String TAG_SUCCESS = "success";
-    private  String TAG_MESSAGE = "message";
-    private  String tag_json_obj= "json_obj_req";
 
 
     ListPojos listPojosa;
@@ -77,10 +64,7 @@ public class creditors_uis extends Fragment {
         listView.setAdapter(adapaterList);
 
 
-     //   if(list.size() == 0){
-          //  listeners.onchoices();
 
-  //  }
         listShow();
 
         imageView.setOnClickListener(v -> {
@@ -125,14 +109,6 @@ public class creditors_uis extends Fragment {
                             JSONObject sads = sad.getJSONObject(i);
                             deb_fn = sads.getString("deb_fn");
                             deb_cpnum = sads.getString("deb_cpnum");
-                            deb_emls = sads.getString("deb_emls");
-                            deb_adrs = sads.getString("deb_adrs");
-                            usr_code = sads.getString("usr_code");
-                            deb_code = sads.getString("deb_code");
-                            typeofterm = sads.getString("typeofterm");
-                            term_len = sads.getString("term_len");
-                            interest = sads.getString("interest");
-                            prin_amount = sads.getString("prin_amount");
                             usr_imageUrl = sads.getString("usr_imageUrl");
                             listPojosa = new ListPojos(deb_fn,deb_cpnum,usr_imageUrl  );
                             list.add(listPojosa);
@@ -145,9 +121,7 @@ public class creditors_uis extends Fragment {
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "Fetching in database error" + e, Toast.LENGTH_LONG).show();
                 }
-            }, (VolleyError error) -> {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-            }){
+            }, (VolleyError error) -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show()){
                 public Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
                     params.put("usr_code", lenders_code);

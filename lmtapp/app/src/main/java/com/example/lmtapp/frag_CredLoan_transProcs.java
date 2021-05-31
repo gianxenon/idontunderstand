@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.lmtapp.deb_view.fragmentManager;
 
 
 public class frag_CredLoan_transProcs extends Fragment      {
@@ -49,7 +53,8 @@ public class frag_CredLoan_transProcs extends Fragment      {
     String ofChoice = "";
 
     String lenders_id,lenders_code;
-
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     //computation Variables
     ArrayList<data_constructor> listss = new ArrayList<>();
@@ -270,7 +275,10 @@ public class frag_CredLoan_transProcs extends Fragment      {
                     if (success.equals("1")) {
 
                         Toast.makeText(getContext(), "loan Tracsaction Successful", Toast.LENGTH_SHORT).show();
-
+                        fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.container_fragment,new creditors_uis( lenders_id,  lenders_code));
+                        fragmentTransaction.commit();
                     } else if(success.equals("3")){
                         Toast.makeText(getContext(), "Empty post", Toast.LENGTH_SHORT).show();
                     }else {
