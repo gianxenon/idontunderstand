@@ -28,6 +28,7 @@
                 android:id="@+id/txt_rows2"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textSize="12sp"
                  />
 
@@ -35,6 +36,7 @@
                 android:id="@+id/txt_rows3"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textSize="12sp"
                  />
 
@@ -43,6 +45,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:gravity="center"
                />
 
             <TextView
@@ -50,6 +53,7 @@
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:gravity="center"
                />
 
             <TextView
@@ -58,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="12sp"
+
                 />
         </LinearLayout>
 

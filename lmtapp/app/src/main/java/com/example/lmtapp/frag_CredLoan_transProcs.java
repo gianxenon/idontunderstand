@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -32,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.example.lmtapp.deb_view.fragmentManager;
 
 
 public class frag_CredLoan_transProcs extends Fragment      {
@@ -49,6 +49,7 @@ public class frag_CredLoan_transProcs extends Fragment      {
     EditText edt_terms;
     EditText edt_Int;
     EditText edt_prinAmount;
+    ImageView deb_img;
     EditText deb_fn, deb_cpnum,deb_emls,deb_adrs ;
     String ofChoice = "";
 
@@ -109,9 +110,9 @@ public class frag_CredLoan_transProcs extends Fragment      {
         //spinner
         final ArrayList<String> choice = new ArrayList<>();
         choice.add("Type of Terms");
-        choice.add("Years (Monthly Payment)");
-        choice.add("Months (Monthly Payment)");
-        choice.add("Months (Daily Payment");
+        choice.add("Years / Monthly Payment");
+        choice.add("Months / Monthly Payment");
+        choice.add("Months / Daily Payment");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, choice);
         spinner_log.setAdapter(adapter);
         spinner_log.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -128,11 +129,13 @@ public class frag_CredLoan_transProcs extends Fragment      {
         adapaterLists = new MyProcessAdapter(getContext(),lists);
         list_Views.setAdapter(adapaterLists);
         // debtor info
+        deb_img = view.findViewById(R.id.reg_imgBrowse);
         deb_fn = view.findViewById(R.id.deb_fn);
         deb_emls =view.findViewById(R.id.deb_emls);
         deb_adrs = view.findViewById(R.id.deb_adrs);
         deb_cpnum = view.findViewById(R.id.deb_cpnum);
-
+        String url = "https://hellorandroid.000webhostapp.com/android_phpcon/Image/" + usr_imageUrl;
+        Glide.with(getContext().getApplicationContext()).load(url).into(deb_img);
         deb_fn.setText(usr_fullname);
         deb_emls.setText(usr_emailadd);
         deb_adrs.setText(usr_address);
@@ -141,13 +144,7 @@ public class frag_CredLoan_transProcs extends Fragment      {
 
         //btn to process loan (send to database)
         btn_process.setOnClickListener(v -> {
-            /*
-            for (int i = 0; i <= lists.size() - 1; i++) {
-                listss.add(new data_constructor(cred_codes,usr_code,"not paid",ofChoice,ofChoice,edt_terms.getText().toString(),
-                lists.get(i).getRow1(),lists.get(i).getRow2(), lists.get(i).getRow3(),lists.get(i).getRow4(),lists.get(i).getRow5()));
-            }
-            cred_codes,deb_code, deb_OpenPos,typeofterms,deb_lengthterm,PAYMENY_METHOD,CAPITAL,INTEREST;
-             */
+
             listss.add(new data_constructor(usr_id,lenders_code,usr_code,deb_openpos,ofChoice,ofChoice,String.valueOf(terms),edt_prinAmount.getText().toString(),edt_Int.getText().toString()));
              sendData();
             });

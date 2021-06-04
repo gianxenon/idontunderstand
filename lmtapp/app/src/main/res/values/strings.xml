@@ -81,9 +81,9 @@
     <string name="image">image</string>
     <string name="textView8">Name</string>
     <string name="textView9">Address</string>
-    <string name="textView10">Contact# :</string>
+    <string name="textView10">emailholder</string>
     <string name="textView11">addressholder</string>
-    <string name="textView12">contactholder</string>
+    <string name="textView12">Contact# :</string>
     <string name="textView13">"PRINCIPAL AMOUNT : "</string>
     <string name="textView14" />
     <string name="textview15">ANNUAL INTEREST RATE :</string>
@@ -101,5 +101,6 @@
     <string name="img_dialogReciept">Dialog Image</string>
     <string name="btn_dialogPay">Pay</string>
     <string name="img_debhist">History</string>
+
 
 </resources>

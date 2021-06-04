@@ -1,7 +1,11 @@
 package com.example.lmtapp;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -26,14 +32,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class creditors_uis extends Fragment {
    //private static final String TAG = "creditors_uis";
     private creditors_uis.onchoice listeners;
     ListView listView;
     public static ArrayList<ListPojos> list= new ArrayList<>();
-    MyAdapter adapaterList;
-
+    cred_uiAdapter adapaterList;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
     ImageView imageView;
 
     //database
@@ -60,20 +68,33 @@ public class creditors_uis extends Fragment {
         listView = view.findViewById(R.id.list_view);
 
 
-        adapaterList = new MyAdapter(getActivity(), list);
+        adapaterList = new cred_uiAdapter(getActivity(), list);
         listView.setAdapter(adapaterList);
 
 
 
-        listShow();
-
+        listShow(lenders_code);
+        adapaterList.notifyDataSetChanged();
         imageView.setOnClickListener(v -> {
 
             dialog_custom dialog_customs = new dialog_custom(lenders_id,lenders_code);
             dialog_customs.show(getFragmentManager(),"dialog_custom");
 
     });
+        //method to check the user in rating list (use to clicked items on the list )
+        BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+             String deb_code =    intent.getExtras().getString("code");
 
+                fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_fragment,new cred_view(deb_code,lenders_code));
+                fragmentTransaction.addToBackStack("creditors__uis").commit();
+            }
+        };
+        Objects.requireNonNull(getContext()).registerReceiver(mBroadcastReceiver, new IntentFilter("call.cred_uis.action")); // This code is in your Activity will be in onCreate() or in onResume() method.
+        //end of method to check the user in rating list
         return view;
     }
 
@@ -95,7 +116,7 @@ public class creditors_uis extends Fragment {
     }
 
 
-    private void listShow() {
+    private void listShow(String lenders_code) {
 
             StringRequest stringRequest  = new StringRequest(Request.Method.POST, insertionUrl, response -> {
                 list.clear();
@@ -108,11 +129,13 @@ public class creditors_uis extends Fragment {
                         for (int i =0;  i < sad.length(); i++) {
                             JSONObject sads = sad.getJSONObject(i);
                             deb_fn = sads.getString("deb_fn");
+                            deb_code = sads.getString("deb_code");
                             deb_cpnum = sads.getString("deb_cpnum");
                             usr_imageUrl = sads.getString("usr_imageUrl");
-                            listPojosa = new ListPojos(deb_fn,deb_cpnum,usr_imageUrl  );
+                            listPojosa = new ListPojos(deb_fn,deb_cpnum,usr_imageUrl ,deb_code);
                             list.add(listPojosa);
                             adapaterList.notifyDataSetChanged();
+                            Log.d("credchks2",response);
                             }
                         Toast.makeText(getContext(), "Success Fetching data for list", Toast.LENGTH_SHORT).show();
                     } else {
@@ -124,8 +147,9 @@ public class creditors_uis extends Fragment {
             }, (VolleyError error) -> Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show()){
                 public Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("usr_code", lenders_code);
 
+                    params.put("lenders_code", lenders_code);
+                    Log.d("credchks",lenders_code);
                     return params;
                 }
             };

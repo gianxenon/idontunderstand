@@ -213,7 +213,7 @@ public class dashbboard_fragment extends Fragment  {
                  usr_birthdate = sads.getString("usr_birthdate");
                  usr_emailadd = sads.getString("usr_emailadd");
                  usr_imageUrl = sads.getString("usr_imageUrl");
-                 listPojosa = new ListPojos(usr_fullname,usr_cpnumber,usr_imageUrl);
+                 listPojosa = new ListPojos(usr_fullname,usr_cpnumber,usr_imageUrl,usr_code);
                  list.add(listPojosa);
                  adapaterList.notifyDataSetChanged();
 
