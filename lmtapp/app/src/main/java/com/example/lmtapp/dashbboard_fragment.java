@@ -52,7 +52,7 @@ public class dashbboard_fragment extends Fragment  {
    // String cred_codess = "0";
     private  String fetchingUrl = "https://hellorandroid.000webhostapp.com/android_phpcon/fecth.php";
     private RequestQueue requestQueue;
-    private static final int TIME_DELAY = 2000;
+    private static final int TIME_DELAY = 2500;
     private static long back_pressed;
 
 

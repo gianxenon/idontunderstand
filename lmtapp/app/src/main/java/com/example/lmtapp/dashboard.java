@@ -34,7 +34,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     FragmentTransaction fragmentTransaction;
     String usr_id ,usr_code,usr_fullname,usr_cpnumber,usr_address,usr_birthdate,usr_emailadd,usr_username,usr_password,usr_imageUrl;
 
-    private static final String TAG= dashbboard_fragment.class.getSimpleName();
+    //private static final String TAG= dashbboard_fragment.class.getSimpleName();
 
 
     @Override
@@ -141,7 +141,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_fragment, new creditors_uis( usr_id ,usr_code));
-        fragmentTransaction.addToBackStack(TAG).commit();
+        fragmentTransaction.addToBackStack("dashbboard_fragment").commit();
 
 
     }

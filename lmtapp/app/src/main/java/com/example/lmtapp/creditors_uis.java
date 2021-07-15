@@ -85,12 +85,12 @@ public class creditors_uis extends Fragment {
         BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-             String deb_code =    intent.getExtras().getString("code");
+             String deb_code =   intent.getExtras().getString("code");
 
                 fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container_fragment,new cred_view(deb_code,lenders_code));
-                fragmentTransaction.addToBackStack("creditors__uis").commit();
+                fragmentTransaction.addToBackStack(TAG).commit();
             }
         };
         Objects.requireNonNull(getContext()).registerReceiver(mBroadcastReceiver, new IntentFilter("call.cred_uis.action")); // This code is in your Activity will be in onCreate() or in onResume() method.
